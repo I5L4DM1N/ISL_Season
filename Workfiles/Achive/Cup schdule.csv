@@ -1,0 +1,60 @@
+Nummer;Spelschema Cup;Seeding/Tidigare match Hemma;Seeding/Tidigare match Borta;Hemma;Borta;Div hemma;Div borta;Matchnummer;Match för vinnaren
+1;Kvarl-1;Seeding I;Seeding H;KU;AF;Div 6;Div 5;61;16-del-1
+2;Kvarl-2;Seeding D;Seeding E;KS;TA;Div 3;Div 3;62;16-del-2
+3;Kvarl-3;Seeding G;Seeding F;SV;SOL;Div 4;Div 4;63;16-del-2
+4;Kvarl-4;Seeding C;Seeding B;HÖ;FF;Div 2;Div 1;64;16-del-3
+5;Kvarl-5;Seeding E;Seeding B;TL;SL;Div 4;Div 1;65;16-del-3
+6;Kvarl-6;Seeding H;Seeding G;HH;SVF;Div 5;Div 5;66;16-del-4
+7;Kvarl-7;Seeding C;Seeding D;TG;TBT;Div 2;Div 3;67;16-del-4
+8;Kvarl-8;Seeding I;Seeding F;BI;CHA;Div 6;Div 4;68;16-del-5
+9;Kvarl-9;Seeding H;Seeding F;GC;CJ;Div 6;Div 4;69;16-del-6
+10;Kvarl-10;Seeding G;Seeding I;SFI;GE;Div 5;Div 6;70;16-del-6
+11;Kvarl-11;Seeding E;Seeding C;DO;LION;Div 3;Div 2;71;16-del-7
+12;Kvarl-12;Seeding D;Seeding B;ISF;PF;Div 3;Div 1;72;16-del-7
+13;Kvarl-13;Seeding G;Seeding D;HS;SSL;Div 5;Div 2;73;16-del-8
+14;Kvarl-14;Seeding F;Seeding H;VP;BM;Div 4;Div 6;74;16-del-8
+15;Kvarl-15;Seeding E;Seeding I;BK;SOS;Div 3;Div 6;75;16-del-9
+16;Kvarl-16;Seeding B;Seeding C;PBV;SFÅ;Div 1;Div 2;76;16-del-10
+17;Kvarl-17;Seeding H;Seeding G;MÖS;KN;Div 6;Div 5;77;16-del-10
+18;Kvarl-18;Seeding C;Seeding F;TWL;S;Div 2;Div 4;78;16-del-11
+19;Kvarl-19;Seeding E;Seeding I;TW;CN;Div 4;Div 6;79;16-del-11
+20;Kvarl-20;Seeding D;Seeding B;SST;SSM;Div 3;Div 1;80;16-del-12
+21;Kvarl-21;Seeding D;Seeding C;LEO;PA;Div 2;Div 2;81;16-del-12
+22;Kvarl-22;Seeding B;Seeding I;SFA;ARK;Div 1;Div 6;82;16-del-13
+23;Kvarl-23;Seeding G;Seeding F;ELD;LOD;Div 5;Div 4;83;16-del-14
+24;Kvarl-24;Seeding H;Seeding E;NS;TH;Div 5;Div 3;84;16-del-14
+25;Kvarl-25;Seeding B;Seeding I;ÖD;ÖR;Div 2;Div 6;85;16-del-15
+26;Kvarl-26;Seeding E;Seeding D;EAG;MS;Div 3;Div 3;86;16-del-15
+27;Kvarl-27;Seeding F;Seeding C;SS;VIK;Div 4;Div 2;87;16-del-16
+28;Kvarl-28;Seeding H;Seeding G;COB;TD;Div 5;Div 5;88;16-del-16
+29;16-del-1;Seeding A 1;Kvarl-1;KÄ;KU;Div 1;Div 6;0;8-del-1
+30;16-del-2;Kvarl-2;Kvarl-3;KS;SOL;Div 3;Div 4;0;8-del-1
+31;16-del-3;Kvarl-4;Kvarl-5;FF;TL;Div 1;Div 4;0;8-del-2
+32;16-del-4;Kvarl-6;Kvarl-7;HH;TBT;Div 5;Div 3;0;8-del-2
+33;16-del-5;Seeding A 2;Kvarl-8;DBL;;Div 1;;0;8-del-3
+34;16-del-6;Kvarl-9;Kvarl-10;;;;;0;8-del-3
+35;16-del-7;Kvarl-11;Kvarl-12;;;;;0;8-del-4
+36;16-del-8;Kvarl-13;Kvarl-14;;;;;0;8-del-4
+37;16-del-9;Seeding A 3;Kvarl-15;SF;;Div 1;;0;8-del-5
+38;16-del-10;Kvarl-16;Kvarl-17;;;;;0;8-del-5
+39;16-del-11;Kvarl-18;Kvarl-19;;;;;0;8-del-6
+40;16-del-12;Kvarl-20;Kvarl-21;;;;;0;8-del-6
+41;16-del-13;Seeding A 4;Kvarl-22;ZB;;Div 1;;0;8-del-7
+42;16-del-14;Kvarl-23;Kvarl-24;;;;;0;8-del-7
+43;16-del-15;Kvarl-25;Kvarl-26;;;;;0;8-del-8
+44;16-del-16;Kvarl-27;Kvarl-28;;;;;0;8-del-8
+45;8-del-1;16-del-1;16-del-2;;;;;0;Kvart-1
+46;8-del-2;16-del-3;16-del-4;;;;;0;Kvart-1
+47;8-del-3;16-del-5;16-del-6;;;;;0;Kvart-2
+48;8-del-4;16-del-7;16-del-8;;;;;0;Kvart-2
+49;8-del-5;16-del-9;16-del-10;;;;;0;Kvart-3
+50;8-del-6;16-del-11;16-del-12;;;;;0;Kvart-3
+51;8-del-7;16-del-13;16-del-14;;;;;0;Kvart-4
+52;8-del-8;16-del-15;16-del-16;;;;;0;Kvart-4
+53;Kvart-1;8-del-1;8-del-2;;;;;0;Semi-1
+54;Kvart-2;8-del-3;8-del-4;;;;;0;Semi-1
+55;Kvart-3;8-del-5;8-del-6;;;;;0;Semi-2
+56;Kvart-4;8-del-7;8-del-8;;;;;0;Semi-2
+57;Semi-1;Kvart-1;Kvart-2;;;;;0;Final-1
+58;Semi-2;Kvart-3;Kvart-4;;;;;0;Final-1
+59;Final-1;Semi-1;Semi-2;;;;;0;Vinnare

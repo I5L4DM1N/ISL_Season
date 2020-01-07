@@ -1,0 +1,99 @@
+{% extends "season/base.html" %}
+
+
+{% block body_block %}
+
+
+	{%if Qualification%}
+	
+<div class="container">
+	<div class="row">
+		<divclass="col-sm-8">
+			<h1>ISL Cup</h1>
+		</div>
+	</div>
+	<div class="row">
+			<div class="col-sm-2">
+				<ul>
+					<h4>Qualification</h4>
+					{%for match in Qualification %}
+						<li><span>{{match.Home}} - {{match.Away}}</span>
+							{% if match.Played == True %}
+						   		<span>{{match.GoalsHome}} - {{match.GoalsAway}}</span>
+							{% endif %}
+						</li>
+					{% endfor %} 
+				</ul>
+			</div>
+
+			<div class="col-sm-2">
+				<ul>
+					<h4>Round of 32</h4>
+					{%for match in RoundOf32 %}
+						<li><span>{{match.Home}} - {{match.Away}}</span>
+							{% if match.Played == True %}
+						   		<span>{{match.GoalsHome}} - {{match.GoalsAway}}</span>
+							{% endif %}
+						</li>
+					{% endfor %} 
+				</ul>
+			</div>
+
+			<div class="col-sm-2">
+				<ul>
+					<h4>Round of 16</h4>
+					{%for match in RoundOf16 %}
+						<li><span>{{match.Home}} - {{match.Away}}</span>
+							{% if match.Played == True %}
+						   		<span>{{match.GoalsHome}} - {{match.GoalsAway}}</span>
+							{% endif %}
+						</li>
+					{% endfor %} 
+				</ul>
+			</div>
+	 
+			<div class="col-sm-2">
+				<ul>
+					<h4>Quarter Finals</h4>
+					{%for match in QuarterFinals %}
+						<li><span>{{match.Home}} - {{match.Away}}</span>
+							{% if match.Played == True %}
+						   		<span>{{match.GoalsHome}} - {{match.GoalsAway}}</span>
+							{% endif %}
+						</li>
+					{% endfor %} 
+				</ul>
+			</div>
+
+			<div class="col-sm-2">
+				<ul>
+					<h4>Semi Finals</h4>
+					{%for match in SemiFinals %}
+						<li><span>{{match.Home}} - {{match.Away}}</span>
+							{% if match.Played == True %}
+						   		<span>{{match.GoalsHome}} - {{match.GoalsAway}}</span>
+							{% endif %}
+						</li>
+					{% endfor %} 
+				</ul>
+			</div>
+
+			<div class="col-sm-2">
+				<ul>
+					<h4>Final</h4>
+					{%for match in Final %}
+						<li><span>{{match.Home}} - {{match.Away}}</span>
+							{% if match.Played == True %}
+						   		<span>{{match.GoalsHome}} - {{match.GoalsAway}}</span>
+							{% endif %}
+						</li>
+					{% endfor %} 
+				</ul>
+			</div>
+		</div>
+</div>
+	{% else %}
+		<h3>No matches to play</h3>
+	{% endif %}
+
+{% endblock body_block %} 

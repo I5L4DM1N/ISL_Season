@@ -1,0 +1,16 @@
+.weekdays_row, .buttons_row{
+	padding-bottom: 1rem;
+	padding-top: 0.5rem;
+}
+
+.card-header{
+	padding:0.05rem;
+}
+
+.card-body{
+	padding: 0.1rem;
+}
+
+.result_table{
+	margin-bottom: 0.1rem;
+}

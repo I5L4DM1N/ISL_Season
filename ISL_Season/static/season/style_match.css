@@ -1,0 +1,11 @@
+#header{
+	background-color: green;
+	height: 600px
+}
+
+
+.span_scorer_away,
+.span_score_away{
+	display: block;
+	float: right;
+}

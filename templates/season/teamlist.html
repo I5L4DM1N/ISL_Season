@@ -1,0 +1,18 @@
+{% extends "season/base.html" %}
+
+
+{% block body_block %}
+
+
+	{%if all_teams%}
+	<h3>list of all teams</h3>
+	<ul>
+		{%for team in all_teams %}
+		<li><a href="{% url "season:team_detail" pk=team.pk%}"> {{ team }}</a></li>
+		{% endfor %}
+	</ul>
+	{% else %}
+		<h3>No players to teams</h3>
+	{% endif %}
+
+{% endblock body_block %} 

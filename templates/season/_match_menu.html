@@ -1,0 +1,73 @@
+{% load staticfiles %}
+
+<ul class="nav nav-pills">
+
+	{% if Played == True %}
+		<li class="nav-item">
+			{% if CurrentPage == "Match"  %}
+				<a class="nav-link active" href="{% url "season:match" GameID=GameID GameRound=GameRound %}">Score</a>
+			{% else %}
+				<a class="nav-link" href="{% url "season:match" GameID=GameID GameRound=GameRound %}">Score</a>    
+			{% endif %}
+		</li>
+		<li class="nav-item">
+			{% if CurrentPage == "Squad" %}
+				<a class="nav-link active" href="{% url "season:matchsquads" GameID=GameID GameRound=GameRound %}">Squads</a>	 
+			{% else %}
+				<a class="nav-link" href="{% url "season:matchsquads" GameID=GameID GameRound=GameRound %}">Squads</a>	  
+			{% endif %}			
+		</li>
+		<li class="nav-item">
+			{% if CurrentPage == "Stats" %}
+				<a class="nav-link active" href="{% url "season:matchstats" GameID=GameID GameRound=GameRound %}">Stats</a>
+			{% else %}
+				<a class="nav-link" href="{% url "season:matchstats" GameID=GameID GameRound=GameRound %}">Stats</a>  
+			{% endif %}	
+		</li>
+		<li class="nav-item">
+			{% if CurrentPage == "Table" %}
+				<a class="nav-link active" href="{% url "season:matchtable" GameID=GameID GameRound=GameRound %}">Table</a>
+			{% else %}
+				<a class="nav-link" href="{% url "season:matchtable" GameID=GameID GameRound=GameRound %}">Table</a>  
+			{% endif %}	
+		</li>
+
+	{% else %}
+		<li class="nav-item">
+			{% if CurrentPage == "Team background"  %}
+				<a class="nav-link active" href="{% url "season:match" GameID=GameID GameRound=GameRound %}">Game info</a>
+			{% else %}
+				<a class="nav-link" href="{% url "season:match" GameID=GameID GameRound=GameRound %}">Game info</a>    
+			{% endif %}
+		</li>
+		<li class="nav-item">
+			{% if CurrentPage == "Squads" %}
+				<a class="nav-link active" href="{% url "season:matchsquads" GameID=GameID GameRound=GameRound %}">Squads</a>	 
+			{% else %}
+				<a class="nav-link" href="{% url "season:matchsquads" GameID=GameID GameRound=GameRound %}">Squads</a>	  
+			{% endif %}			
+		</li>
+		<li class="nav-item">
+			{% if CurrentPage == "Stats" %}
+				<a class="nav-link active" href="{% url "season:matchstats" GameID=GameID GameRound=GameRound %}">Stats</a>
+			{% else %}
+				<a class="nav-link" href="{% url "season:matchstats" GameID=GameID GameRound=GameRound %}">Stats</a>  
+			{% endif %}	
+		</li>
+		<li class="nav-item">
+			{% if CurrentPage == "Tournament info" %}
+				<a class="nav-link active" href="{% url "season:matchtable" GameID=GameID GameRound=GameRound %}">Table</a>
+			{% else %}
+				<a class="nav-link" href="{% url "season:matchtable" GameID=GameID GameRound=GameRound %}">Table</a>  
+			{% endif %}	
+		</li>
+
+	{% endif %}
+
+
+
+
+
+</ul>
+
+ 

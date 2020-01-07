@@ -1,0 +1,16 @@
+{% extends "season/base.html" %}
+
+
+{% block body_block %}
+
+	{%for p in player%}
+
+		<p>{{p.Name}}</p>
+		<p><img src="{{p.Nation.Flag.url}}"> </p>
+		{% if p.Image %}
+			<img src="{{p.Image.url}}">  
+		{% endif %}
+		
+	{%endfor%}
+
+{% endblock body_block %} 

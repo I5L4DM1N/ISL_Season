@@ -1,0 +1,703 @@
+{% extends "season/base.html" %}
+
+<!--la till load staticfiles för att det inte fungerar att använda static inom block taggar. i ett senare skede bör logo vara ett attribut till class istället för att använda static-->
+{% load staticfiles %} 
+{% load static %}
+{% load season_tags %}
+
+{% block extrahead %}
+<link rel="stylesheet" type="text/css" href="{% static 'season/style_match_squads.css' %}">
+{% endblock %}
+
+{% block title %}Match{% endblock title %}
+
+{% block body_block %}
+<div class="container">
+	<div class="row">
+		{% include 'season/_match_header.html' %}
+	</div>
+	<div class="row">
+		{% include 'season/_match_menu.html' %}
+	</div>
+	{% if Played == True %}
+		<div class="grid-container-teams">
+			{% for round in current_round %}
+				{% if round.HomeOrAway == "Home"%}
+					<div class="grid-item-home-team">
+						<table>
+							<tr>
+								<td>Attack</td>
+								<td>{{round.AttackValue|floatformat:2}}</td>
+							</tr>
+							<tr>
+								<td>Defence</td>
+								<td>{{round.DefenseValue|floatformat:2}}</td>
+							</tr>
+						</table>
+					</div>
+				{% endif %}
+				{% if round.HomeOrAway == "Away"%}
+					<div class="grid-item-away-team">
+						<table>
+							<tr>
+								<td>Defence</td>
+								<td>{{round.DefenseValue|floatformat:2}}</td>
+							</tr>
+							<tr>
+								<td>Attack</td>
+								<td>{{round.AttackValue|floatformat:2}}</td>
+							</tr>
+						</table>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+		<div class="row">
+			<!--Home Team subs-->
+			<div class="grid-container-subs">
+				<div>
+
+					<div class="grid-item-home">SUB 1</div>
+					<div class="grid-item-home">SUB 2</div>
+				</div>
+			</div>
+
+			<!--Home Team-->
+			<div class="grid-container-home"> 
+				{% for key, value in HomeContainerDict.items %}
+					{% if value == "Empty" %}
+						<div class="grid-item-home"></div>					  
+					{% else %}   
+						{% for player in Home_team_players %}
+							{% if player.Position == value  %}
+								<div class="grid-item-home">
+									<div>
+										<span class="Player_Name">{{player.Name}}</span>
+										{% if player.Substitute == True %}
+											<img src="{% static "season/images/site/substitute.png" %}" alt="goal_icon" class="goal_icon"> 
+										{% endif %}
+									</div>
+									<div>
+										<div>
+											{% if player.OffensiveAbility > 5 %}
+												<img src="{% static "season/images/site/gold_star.png" %}" alt="gold_star" class="gold_star">
+											{% elif player.OffensiveAbility > 4 %}
+												<img src="{% static "season/images/site/silver_star.png" %}" alt="silver_star" class="silver_star">
+											{% elif player.OffensiveAbility > 3 %}
+												<img src="{% static "season/images/site/bronze.png" %}" alt="bronze" class="bronze">
+											{% elif player.OffensiveAbility > 2 %}
+												<img src="{% static "season/images/site/green.png" %}" alt="green" class="green">
+											{% else %}
+												<img src="{% static "season/images/site/blue.png" %}" alt="grey" class="grey">
+											{% endif %}
+
+											<a href="#playermodal{{player.id}}" role="button" data-toggle="modal"><img src="{{player.Player.Image.url}}" alt="score_player_image" class="img-fluid rounded-circle score_player_image"></a>
+														
+											<!-- Modal -->
+											<div class="modal fade" id="playermodal{{player.id}}">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLabel">{{player.Name}}
+																<img src="{{player.Player.Image.url}}" alt="score_player_image" class="img-fluid rounded-circle score_player_image">
+																<span>  {{player.Position}}</span>
+															</h5>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+
+														<div class="modal-body">
+															<ul class="nav nav-tabs" id="tabContent">
+																<li class="nav-item">
+																	<a class="li_success nav-link active" href="#Attack" data-toggle="tab">Attack</a>
+																</li>
+																<li class="nav-item">
+																	<a class="nav-link" href="#Defence" data-toggle="tab">Defence</a>
+																</li>
+																<li class="nav-item">
+																	<a class="nav-link" href="#OffAbiCha" data-toggle="tab">Off Abi Cha</a>
+																</li>
+																<li class="nav-item">
+																	<a class="nav-link" href="#DefAbiCha" data-toggle="tab">Def Abi Cha</a>
+																</li>
+															</ul>
+															<div class="tab-content">
+																<div class="tab-pane active" id="Attack">
+																	<h2>Attack</h2>
+																	<table class ="table table-sm table-striped">
+																		<tr>
+																			<th>Ability</th>
+																			<th>Value</th>
+																		</tr>
+																		<tr>
+																			<td>Offensive Ability</td>
+																			<td>{{player.OffensiveAbility|sub:player.OffensiveAbilityChange|sub:player.GoalOffAbilityChange|sub:player.SentOffOffAbilityChange|floatformat:2}}</td>														
+																		</tr>
+																		<tr>
+																			<td>Defensive Ability</td>
+																			<td>{{player.DefensiveAbility|sub:player.DefensiveAbilityChange|sub:player.SaveDefAbilityChange|sub:player.SentOffDefAbilityChange|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Team tactics</td>
+																			<td>{{player.TeamTactics}}</td>
+																		</tr>
+																		<tr>
+																			<td>Off/Def factor
+																				{% if player.Position == "GK" %}
+																				<div class="calc_explanation">Pos GK = 0,4/0,6</div>
+																				{% elif player.Position == "LM" %}
+																				<div class="calc_explanation">Pos LM = 0,5/0,5</div>
+																				{% elif player.Position == "RM" %}
+																				<div class="calc_explanation">Pos RM = 0,5/0,5</div>
+																				{% elif player.Position == "ST" %}
+																				<div class="calc_explanation">Pos ST = 0,6/0,5</div>
+																				{% endif %}
+																				<div class="calc_explanation">Attack = +0,1/-0,1</div>
+																				{% if player.TeamTactics == 'drop_back' %}
+																				<div class="calc_explanation">Tact: Drop back = -0,1/+0,1</div>
+																				{% elif player.TeamTactics == 'balanced' %}
+																				<div class="calc_explanation">Tact: Balanced = 0/0</div>  
+																				{% elif player.TeamTactics == 'push_up' %}
+																				<div class="calc_explanation">Tact: Push up = +0,1/-0,1</div> 
+																				{% endif %}
+																			</td>
+																			<td>{{player.AttackingPostionalOffensiveFactor}}/{{player.AttackingPostionalDefensiveFactor}}</td>
+																		</tr>
+																		<tr>
+																			<td>Positional Experience</td>
+																			<td>{{player.PositionalExperience|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Chemestry</td>
+																			<td>{{player.Chemestry|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Fitness</td>
+																			<td>{{player.NewFitness|add:player.FitnessChange|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Attack Ability<div class="calc_explanation">(Off.Abi. x Off.Fact) + (Def * Def.Fact)</div><div class="calc_explanation"> x Pos.Exp x Chem. x Fit.</div></td>
+																			<td>{{player.AttackAbility}}</td>
+																		</tr>
+																		<tr>
+																			<th>Motivation</th>
+																			<th>Value</th>
+																		</tr>
+																		<tr>
+																			<td>Personal Motivation</td>
+																			<td>{{player.PersonalMotivation|sub:player.PersonalMotivationChange|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Routine Bonus</td>
+																			<td>{{player.RoutineBonus}}</td>
+																		</tr>
+																		<tr>
+																			<td>Nervosity</td>
+																			<td>{{player.Nervosity}}</td>
+																		</tr>
+																		<tr>
+																			<td>Adjusted Personal Motivation <div class="calc_explanation">(Per. Mot. + Routin Bon. +Nerv.)</div></td>
+																			<td>{{player.AdjustedPersonalMotivation}}</td>
+																		</tr>
+																		<tr>
+																			<td>Team Motivation</td>
+																			<td>{{player.TeamMotivation|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Motivation <div class="calc_explanation">(Adj.Pers.Mot + Team Mot.) /2</div></td>
+																			<td>{{player.NewMotivation|add:player.MotivationChange}}</td>
+																		</tr>
+																		<tr>
+																			<th>Performance</th>
+																			<th>Value</th>
+																		</tr>
+																		<tr>
+																			<td>Max Performance</td>
+																			<td>{{player.MaxAttackPerformance}}</td>
+																		</tr>
+																		<tr>
+																			<td>Offensive Performance</td>
+																			<td>{{player.OffensivePerformance}}</td>
+																		</tr>
+																		<tr>
+																			<td>Intensity</td>
+																			<td>{{player.AttackIntensity|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Motivation Adjusted Performance <div class="calc_explanation">Perf. + ((1-Mot.)*(1-Intensity)*Perf.)</div></td>
+																			<td>{{player.MotivationAdjustedOffensivePerformance}}</td>
+																		</tr>
+																		<tr>
+																			<td>Ability - Performance</td>
+																			<td>{{player.AttackAbility|sub:player.MotivationAdjustedOffensivePerformance|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Area Influence</td>
+																			<td>{{player.AttackAreaInfluence}}</td>
+																		</tr>
+																		<tr>
+																			<td>Attack Value <div class="calc_explanation">(Attack Ability - Mot.Adj.Off.Perf) x Area influence</div></td>
+																			{% if player.OffensiveValue > 0 %}
+																			<td class="attack_value_success">{{player.OffensiveValue}}</td>
+																			{% else %}
+																			<td class="attack_value_fail">{{player.OffensiveValue}}</td>
+																			{% endif %}
+																		</tr>				
+																	</table>
+																</div>
+																<div class="tab-pane" id="Defence">
+																	<h2>Defence</h2>
+																	<table class ="table table-sm table-striped">
+																		<tr>
+																			<th>Ability</th>
+																			<th>Value</th>
+																		</tr>
+																		<tr>
+																			<td>Offensive Ability</td>
+																			<td>{{player.OffensiveAbility|sub:player.OffensiveAbilityChange|sub:player.GoalOffAbilityChange|sub:player.SentOffOffAbilityChange|floatformat:2}}</td>														
+																		</tr>
+																		<tr>
+																			<td>Defensive Ability</td>
+																			<td>{{player.DefensiveAbility|sub:player.DefensiveAbilityChange|sub:player.SaveDefAbilityChange|sub:player.SentOffDefAbilityChange|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Team tactics</td>
+																			<td>{{player.TeamTactics}}</td>
+																		</tr>
+																		<tr>
+																			<td>Off/Def factor
+																				{% if player.Position == "GK" %}
+																				<div class="calc_explanation">Pos GK = 0,4/0,6</div>
+																				{% elif player.Position == "LM" %}
+																				<div class="calc_explanation">Pos LM = 0,5/0,5</div>
+																				{% elif player.Position == "RM" %}
+																				<div class="calc_explanation">Pos RM = 0,5/0,5</div>
+																				{% elif player.Position == "ST" %}
+																				<div class="calc_explanation">Pos ST = 0,6/0,4</div>
+																				{% endif %}
+																				<div class="calc_explanation">Defence = -0,1/+0,1</div>
+																				{% if player.TeamTactics == 'drop_back' %}
+																				<div class="calc_explanation">Tact: Drop back = -0,1/+0,1</div>
+																				{% elif player.TeamTactics == 'balanced' %}
+																				<div class="calc_explanation">Tact: Balanced = 0/0</div>  
+																				{% elif player.TeamTactics == 'push_up' %}
+																				<div class="calc_explanation">Tact: Push up = +0,1/-0,1</div> 
+																				{% endif %}
+																			</td>
+																			<td>{{player.DefendingPostionalOffensiveFactor|floatformat:1}}/{{player.DefendingPostionalDefensiveFactor|floatformat:1}}</td>
+																		</tr>
+																		<tr>
+																			<td>Positional Experience</td>
+																			<td>{{player.PositionalExperience|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Chemestry</td>
+																			<td>{{player.Chemestry|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Fitness</td>
+																			<td>{{player.NewFitness|add:player.FitnessChange|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Defend Ability<div class="calc_explanation">(Off.Abi. x Off.Fact) + (Def * Def.Fact)</div><div class="calc_explanation"> x Pos.Exp x Chem. x Fit.</div></td>
+																			<td>{{player.DefendAbility}}</td>
+																		</tr>
+																		<tr>
+																			<th>Motivation</th>
+																			<th>Value</th>
+																		</tr>
+																		<tr>
+																			<td>Personal Motivation</td>
+																			<td>{{player.PersonalMotivation|sub:player.PersonalMotivationChange|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Routine Bonus</td>
+																			<td>{{player.RoutineBonus}}</td>
+																		</tr>
+																		<tr>
+																			<td>Nervosity</td>
+																			<td>{{player.Nervosity}}</td>
+																		</tr>
+																		<tr>
+																			<td>Adjusted Personal Motivation <div class="calc_explanation">(Per. Mot. + Routin Bon. +Nerv.)</div></td>
+																			<td>{{player.AdjustedPersonalMotivation}}</td>
+																		</tr>
+																		<tr>
+																			<td>Team Motivation</td>
+																			<td>{{player.TeamMotivation|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Motivation <div class="calc_explanation">(Adj.Pers.Mot + Team Mot.) /2</div></td>
+																			<td>{{player.NewMotivation|add:player.MotivationChange}}</td>
+																		</tr>
+																		<tr>
+																			<th>Performance</th>
+																			<th>Value</th>
+																		</tr>
+																		<tr>
+																			<td>Max Performance</td>
+																			<td>{{player.MaxDefencePerformance}}</td>
+																		</tr>
+																		<tr>
+																			<td>Defensive Performance</td>
+																			<td>{{player.DefensivePerformance}}</td>
+																		</tr>
+																		<tr>
+																			<td>Intensity</td>
+																			<td>{{player.DefenceIntensity|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Motivation Adjusted Performance <div class="calc_explanation">Perf. + ((1-Mot.)*(1-Intensity)*Perf.)</div></td>
+																			<td>{{player.MotivationAdjustedDefensivePerformance}}</td>
+																		</tr>
+																		<tr>
+																			<td>Ability - Performance</td>
+																			<td>{{player.DefendAbility|sub:player.MotivationAdjustedDefensivePerformance|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Area Influence</td>
+																			<td>{{player.DefenceAreaInfluence}}</td>
+																		</tr>
+																		<tr>
+																			<td>Defend Value <div class="calc_explanation">(Defend Ability - Mot.Adj.Def.Perf) x Area influence</div></td>
+																			{% if player.DefensiveValue > 0 %}
+																			<td class="defend_value_success">{{player.DefensiveValue}}</td>
+																			{% else %}
+																			<td class="defend_value_fail">{{player.DefensiveValue}}</td>
+																			{% endif %}
+																		</tr>				
+																	</table>
+																</div> 
+																<div class="tab-pane" id="OffAbiCha">
+																	<table class ="table table-sm table-striped">
+																		<tr>
+																			<th>Offensive Ability Change</th>
+																			<th>Value</th>
+																		</tr>
+																		<tr>
+																			<td>Ability Change Performance</td>
+																			<td>{{player.AttackAbilityChangePerformance|floatformat:0}}</td>												
+																		</tr>
+																		<tr>
+																			<td>Offensive Ability</td>
+																			<td>{{player.OffensiveAbility|sub:player.OffensiveAbilityChange|sub:player.GoalOffAbilityChange|sub:player.SentOffOffAbilityChange|multiply:100|floatformat:0}}</td>												
+																		</tr>
+																		<tr>
+																			<td>Ability Change Effect <div class="calc_explanation">(Ab. Ch. Per. - Offensive Ability)</div></td>
+																			{% if player.AttackAbilityChangeEffect > 0  %}
+																			<td class="attack_value_success">{{player.AttackAbilityChangeEffect|floatformat:0}}</td>
+																			{% else %}
+																			<td class="attack_value_fail">{{player.AttackAbilityChangeEffect|floatformat:0}}</td>
+																			{% endif %}
+																		</tr>
+																		<tr>
+																			<td>Offensive Value <div class="calc_explanation">(From Attack Performance)</div></td>
+																			{% if player.OffensiveValue > 0  %}
+																			<td class="attack_value_success">{{player.OffensiveValue|floatformat:2}}</td>
+																			{% else %}
+																			<td class="attack_value_fail">{{player.OffensiveValue|floatformat:2}}</td>
+																			{% endif %}
+																		</tr>
+																		<tr>
+																			<td>Abilty Change
+																				{% if player.AttackAbilityChangeEffect > 0 and player.OffensiveValue > 0 %}
+																				<div class="calc_explanation">0,01-0,05 ökning</div>
+																				{% elif player.AttackAbilityChangeEffect < 0 and player.OffensiveValue < 0 %}
+																				<div class="calc_explanation">0,01-0,05 minskning</div>
+																				{% endif %}
+																			</td>
+																		<!--{% if player.OffensiveAbilityChange > 0  %}
+																			<td class="attack_value_success">{{player.OffensiveAbilityChange|floatformat:2}}</td>
+																		{% elif player.OffensiveAbilityChange < 0 %}
+																			<td class="attack_value_fail">{{player.OffensiveAbilityChange|floatformat:2}}</td>
+																		{% else %}
+																			<td>{{player.OffensiveAbilityChange|floatformat:2}}</td>
+																			{% endif %}-->
+																			<td>{{player.OffensiveAbilityChange|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Goal scored</td>
+																			{% if player.GoalOffAbilityChange > 0 %}
+																			<td class="attack_value_success">Goal!</td>												
+																			{% endif %}
+
+																		</tr>
+																		<tr>
+																			<td>Goal Ability Change</td>
+																			<td>{{player.GoalOffAbilityChange|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Sent off</td>
+																			{% if player.SentOff == True %}
+																			<tdclass="attack_value_fail">Sent Off</td>
+																			{% endif %}
+
+																		</tr>
+																		<tr>
+																			<td>Sent off Ability change</td>
+																			<td>{{player.SentOffOffAbilityChange}}</td>
+																		</tr>
+																		<tr>
+																			<td>Total Offensive Ability Change<div class="calc_explanation">(Off.Abi. chg. + goal abi. chg. + sent off abi. chg.)</div></td>
+																			{% if player.OffensiveAbilityChange|add:player.GoalOffAbilityChange|add:player.SentOffOffAbilityChange > 0 %}
+																			<td class="attack_value_success">{{player.OffensiveAbilityChange|add:player.GoalOffAbilityChange|add:player.SentOffOffAbilityChange|floatformat:2}}</td>
+																			{% elif player.OffensiveAbilityChange|add:player.GoalOffAbilityChange|add:player.SentOffOffAbilityChange < 0%}
+																			<td class="attack_value_fail">{{player.OffensiveAbilityChange|add:player.GoalOffAbilityChange|add:player.SentOffOffAbilityChange|floatformat:2}}</td>
+																			{% else %}
+																			<td>{{player.OffensiveAbilityChange|add:player.GoalOffAbilityChange|add:player.SentOffOffAbilityChange}}</td>
+																			{% endif %}
+																		</tr>
+																		<tr>
+																			<td>New Offensive Ability</td>
+																			<td>{{player.OffensiveAbility}}</td>
+																		</tr>				
+																	</table>
+																</div>
+																<div class="tab-pane" id="DefAbiCha">
+																	<table class ="table table-sm table-striped">
+																		<tr>
+																			<th>Defensive Ability Change</th>
+																			<th>Value</th>
+																		</tr>
+																		<tr>
+																			<td>Ability Change Performance</td>
+																			<td>{{player.DefeneceAbilityChangePerformance|floatformat:0}}</td>												
+																		</tr>
+																		<tr>
+																			<td>Defensive Ability</td>
+																			<td>{{player.DefensiveAbility|sub:player.DefensiveAbilityChange|sub:player.SaveDefAbilityChange|sub:player.SentOffDefAbilityChange|multiply:100|floatformat:0}}</td>												
+																		</tr>
+																		<tr>
+																			<td>Ability Change Effect <div class="calc_explanation">(Ab. Ch. Per. - Defensive Ability)</div></td>
+																			{% if player.DefenceAbilityChangeEffect > 0  %}
+																			<td class="attack_value_success">{{player.DefenceAbilityChangeEffect|floatformat:0}}</td>
+																			{% else %}
+																			<td class="attack_value_fail">{{player.DefenceAbilityChangeEffect|floatformat:0}}</td>
+																			{% endif %}
+																		</tr>
+																		<tr>
+																			<td>Defensive Value <div class="calc_explanation">(From Defence Performance)</div></td>
+																			{% if player.DefensiveValue > 0  %}
+																			<td class="attack_value_success">{{player.DefensiveValue|floatformat:2}}</td>
+																			{% else %}
+																			<td class="attack_value_fail">{{player.DefensiveValue|floatformat:2}}</td>
+																			{% endif %}
+																		</tr>
+																		<tr>
+																			<td>Abilty Change
+																				{% if player.DefenceAbilityChangeEffect > 0 and player.DefensiveValue > 0 %}
+																				<div class="calc_explanation">0,01-0,05 ökning</div>
+																				{% elif player.DefenceAbilityChangeEffect < 0 and player.DefensiveValue < 0 %}
+																				<div class="calc_explanation">0,01-0,05 minskning</div>
+																				{% endif %}
+																			</td>
+																		<!--{% if player.OffensiveAbilityChange > 0  %}
+																			<td class="attack_value_success">{{player.OffensiveAbilityChange|floatformat:2}}</td>
+																		{% elif player.OffensiveAbilityChange < 0 %}
+																			<td class="attack_value_fail">{{player.OffensiveAbilityChange|floatformat:2}}</td>
+																		{% else %}
+																			<td>{{player.OffensiveAbilityChange|floatformat:2}}</td>
+																			{% endif %}-->
+																			<td>{{player.DefensiveAbilityChange|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Save</td>
+																			{% if player.SaveDefAbilityChange > 0 %}
+																			<td class="attack_value_success">Save!</td>
+																			{% endif %}
+
+																		</tr>
+																		<tr>
+																			<td>Save Ability Change</td>
+																			<td>{{player.SaveDefAbilityChange|floatformat:2}}</td>
+																		</tr>
+																		<tr>
+																			<td>Sent off</td>
+																			{% if player.SentOff == True %}
+																			<td class="attack_value_fail">YES</td>    
+																			{% endif %}
+																		</tr>
+																		<tr>
+																			<td>Sent off Ability change</td>
+																			<td>{{player.SentOffDefAbilityChange}}</td>
+																		</tr>
+																		<tr>
+																			<td>Total Defensive Ability Change<div class="calc_explanation">(Def.Abi. chg. + save abi. chg. + sent off abi. chg.)</div></td>
+																			{% if player.DefensiveAbilityChange|add:player.SaveDefAbilityChange|add:player.SentOffDefAbilityChange > 0 %}
+																			<td class="attack_value_success">{{player.DefensiveAbilityChange|add:player.SaveDefAbilityChange|add:player.SentOffDefAbilityChange}}</td>
+																			{% elif player.DefensiveAbilityChange|add:player.SaveDefAbilityChange|add:player.SentOffDefAbilityChange < 0%}
+																			<td class="attack_value_fail">{{player.DefensiveAbilityChange|add:player.SaveDefAbilityChange|add:player.SentOffDefAbilityChange}}</td>
+																			{% else %}
+																			<td>{{player.DefensiveAbilityChange|add:player.SaveDefAbilityChange|add:player.SentOffDefAbilityChange}}</td>
+																			{% endif %}
+																		</tr>
+																		<tr>
+																			<td>New Defensive Ability</td>
+																			<td>{{player.DefensiveAbility}}</td>
+																		</tr>				
+																	</table>
+																</div>
+															</div>
+														</div>
+
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- End Modal -->
+
+
+											{% if player.MatchRating > 8 %}
+												<span class="Player_rating_5">{{player.MatchRating}}</span>
+											{% elif player.MatchRating > 6 %}
+												<span class="Player_rating_4">{{player.MatchRating}}</span>
+											{% elif player.MatchRating > 4 %}
+												<span class="Player_rating_3">{{player.MatchRating}}</span>
+											{% elif player.MatchRating > 2 %}
+												<span class="Player_rating">{{player.MatchRating}}</span>
+											{% else %}
+												<span class="Player_rating_1">{{player.MatchRating}}</span>
+											{% endif %}
+										</div>
+									</div>
+									<table class ="table table-sm table-striped fitness_table">
+										<tr>
+											<td>
+												<div class='progress progress-striped fitness_bar'>
+													{% if player.NewFitness > 0.8 %}
+														<div class="progress-bar fitness_bar-success" role="progressbar" style="width: {% widthratio player.NewFitness 1 100 %}%;">
+															{% widthratio player.NewFitness 1 100 %}
+													{% elif player.NewFitness > 0.6 %}
+														<div class="progress-bar fitness_bar-warning" role="progressbar" style="width: {% widthratio player.NewFitness 1 100 %}%;">
+															{% widthratio player.NewFitness 1 100 %}
+													{% else %}
+														<div class="progress-bar fitness_bar-danger" role="progressbar" style="width: {% widthratio player.NewFitness 1 100 %}%;">
+															{% widthratio player.NewFitness 1 100 %}
+													{% endif %}
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class='progress progress-striped motivation_bar'>
+													{% if player.NewMotivation > 1 %}
+														<div class="progress-bar motivation_bar-success" role="progressbar" style="width: {% widthratio player.NewMotivation 1 100 %}%;">
+															{% widthratio player.NewMotivation 1 100 %}
+													{% elif player.NewMotivation > 0.8 %}
+														<div class="progress-bar motivation_bar-warning" role="progressbar" style="width: {% widthratio player.NewMotivation 1 100 %}%;">
+															{% widthratio player.NewMotivation 1 100 %}
+													{% else %}
+														<div class="progress-bar motivation_bar-danger" role="progressbar" style="width: {% widthratio player.NewMotivation 1 100 %}%;">
+															{% widthratio player.NewMotivation 1 100 %}
+													{% endif %}
+												</div>
+											</td>
+										</tr>
+									</table>
+									<div>
+										{% for round in all_rounds_so_far %}
+											{% if round.EventPlayerAttack == player.Player %}
+												<img src="{% static "season/images/site/Goal.jpg" %}" alt="goal_icon" class="goal_icon">  
+											{% endif %}
+										{% endfor %}
+										{% for round in all_rounds_so_far %}
+											{% if round.EventPlayerDefence == player.Player %}
+												<img src="{% static "season/images/site/save.png" %}" alt="save_icon" class="save_icon">  
+											{% endif %}	
+										{% endfor %}
+									</div>
+								</div>
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+				{% endfor %}
+			</div>
+
+									<!--Away Team -->
+									<div class="grid-container-away"> 
+										{% for key, value in AwayContainerDict.items %}
+										{% if value == "Empty" %}
+										<div class="grid-item-home"></div>					  
+										{% else %}   
+										{% for player in Away_team_players %}
+										{% if player.Position == value  %}
+										<div class="grid-item-home">
+											<div>
+												<span>{{player.Position}}</span>
+												<img src="{{player.Player.Image.url}}" alt="score_player_image" class="img-fluid rounded-circle score_player_image">
+												{% if player.Substitute == True %}
+												<img src="{% static "season/images/site/substitute.png" %}" alt="goal_icon" class="goal_icon"> 
+												{% endif %}
+											</div>
+											<table class ="table table-sm table-striped fitness_table">
+												<tr>
+													<td>
+														<div class='progress progress-striped fitness_bar'>
+															{% if player.NewFitness > 0.8 %}
+															<div class="progress-bar fitness_bar-success" role="progressbar" style="width: {% widthratio player.NewFitness 1 100 %}%;">
+																{% widthratio player.NewFitness 1 100 %}
+																{% elif player.NewFitness > 0.6 %}
+																<div class="progress-bar fitness_bar-warning" role="progressbar" style="width: {% widthratio player.NewFitness 1 100 %}%;">
+																	{% widthratio player.NewFitness 1 100 %}
+																	{% else %}
+																	<div class="progress-bar fitness_bar-danger" role="progressbar" style="width: {% widthratio player.NewFitness 1 100 %}%;">
+																		{% widthratio player.NewFitness 1 100 %}
+																		{% endif %}
+																	</div>
+																</td>
+															</tr>
+															<tr>
+																<td>
+																	<div class='progress progress-striped fitness_bar'>
+																		{% if player.NewMotivation > 0.8 %}
+																		<div class="progress-bar fitness_bar-success" role="progressbar" style="width: {% widthratio player.NewMotivation 1 100 %}%;">
+																			{% widthratio player.NewMotivation 1 100 %}
+																			{% elif player.NewMotivation > 0.6 %}
+																			<div class="progress-bar fitness_bar-warning" role="progressbar" style="width: {% widthratio player.NewMotivation 1 100 %}%;">
+																				{% widthratio player.NewMotivation 1 100 %}
+																				{% else %}
+																				<div class="progress-bar fitness_bar-danger" role="progressbar" style="width: {% widthratio player.NewMotivation 1 100 %}%;">
+																					{% widthratio player.NewMotivation 1 100 %}
+																					{% endif %}
+																				</div>
+																			</td>
+																		</tr>
+																	</table>
+																	<div>
+																		<span class="Player_Name">{{player.Name}}</span>
+																	</div>
+
+																	<div>
+																		{% for round in all_rounds_so_far %}
+																		{% if round.EventPlayerAttack == player.Player %}
+																		<img src="{% static "season/images/site/Goal.jpg" %}" alt="goal_icon" class="goal_icon">  
+																		{% endif %}	
+																		{% endfor %}
+																	</div>
+																</div>
+																{% endif %}
+																{% endfor %}
+																{% endif %}
+																{% endfor %}
+															</div>
+
+															<!--Away Team Subs-->
+															<div class="grid-container-subs">
+																<div>
+																	<div class="grid-item-home">SUB 1</div>
+																	<div class="grid-item-home">SUB 2</div>
+																</div>
+															</div>
+														</div>	
+														<div class="row">
+															<div>Defence</div> 
+															<div>Attack</div>
+														</div>
+
+														{% endif %}
+
+													</div>
+													{% endblock %}

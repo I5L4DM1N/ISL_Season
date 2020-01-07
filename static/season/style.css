@@ -1,0 +1,50 @@
+body{
+	background: white url("images/site/snow.jpg");
+}
+
+.navbar{
+	border-radius: 0;
+	font-family: 'Sarpanch', sans-serif;
+}
+
+.navbar-brand{
+	font-family: 'Sarpanch', sans-serif;
+	font-size: 2rem;
+}
+
+.base_navbar{
+	line-height: 1;
+}
+
+
+.div_score_away,
+.div_scorer_away,
+.div_score_home,
+.div_scorer_home,
+.div_scorer_home_image
+.div_scorer_away_image{
+	width: auto;
+	display: inline-block;
+}
+
+.div_score_away,
+.div_scorer_away,
+.div_scorer_away_image{
+	float:right;
+}
+
+.div_score_home,
+.div_scorer_home,
+.div_scorer_home_image{
+	float:left;
+}
+
+.div_scorer_home,
+.div_score_away{
+	padding-left:1rem;
+	padding-right:1rem;
+}
+
+.score_player_image{
+	width: 2rem;
+}

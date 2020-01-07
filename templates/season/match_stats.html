@@ -1,0 +1,224 @@
+{% extends "season/base.html" %}
+
+<!--la till load staticfiles för att det inte fungerar att använda static inom block taggar. i ett senare skede bör logo vara ett attribut till class istället för att använda static-->
+{% load staticfiles %}
+
+
+
+
+{% block extrahead %}
+	<link rel="stylesheet" type="text/css" href="{% static 'season/style_match.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'season/style_match_stats.css' %}">
+{% endblock %}
+
+{% block title %}Match{% endblock title %}
+
+{% block body_block %}
+<div class="container">
+	<div class="row">
+		{% include 'season/_match_header.html' %}
+	</div>
+	<div class="row">
+		{% include 'season/_match_menu.html' %}
+	</div>
+
+	<div class="row">
+		<div class="col-sm-12">
+			
+			{% if GameRound == 0 %}
+				<p>Game not started</p>
+			{% else %}
+
+			      <div class="modal-body">
+			      	<ul class="nav nav-tabs" id="tabContent">
+					    <li class="nav-item"><a class="nav-link" href="#General" data-toggle="tab">General</a></li>
+					    <li class="nav-item"><a class="nav-link active" href="#AttPerformance" data-toggle="tab">Attack Performance</a></li>
+					    <li class="nav-item"><a class="nav-link" href="#DefPerformance" data-toggle="tab">Defence Performance</a></li>
+					    <li class="nav-item"><a class="nav-link" href="#Fitness_Motivation" data-toggle="tab">Fitness and Motivation</a></li>
+					    <li class="nav-item"><a class="nav-link" href="#Ability" data-toggle="tab">Ability</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane" id="General">
+					        <table class ="table table-sm table-striped">
+								<tr>
+									<th>Image</th>
+									<th>Name</th>
+									<th>Age</th>
+									<th></th>
+									<th>Nationality</th>
+									<th>Team</th>	
+									
+								</tr>		
+								{% for Player in All_players %}
+								<tr>
+									<td><img src="{{Player.Image.url}}" alt="score_player_image" class="img-fluid rounded-circle player_image"></td>
+									<td>{{Player.Name}}</td>
+									<td>{{Player.Age}}</td>
+									<td><img src="{{Player.Nation.Flag.url}}" alt="flag" class="flag"></td>
+									<td>{{Player.Nation.Name}}</td>
+									<td>{{Player.Team}}</td>
+								</tr>
+								{% endfor %}
+			
+								
+							</table>
+						</div>
+						<div class="tab-pane active" id="AttPerformance">
+							<table class ="table table-sm table-striped">
+								<tr>
+									<th>Player Name</th>
+									<th>Team</th>
+									<th>Abilty</th>
+									<th>Off Ability</th>
+									<th>Att Ability</th>
+									<th>Off Performance</th>
+									<th>Motivation</th>
+									<th>Mot Adj Att Perf</th>
+									<th>Off Value</th>
+									<th>Off Rating</th>
+									<th>Def Rating</th>
+									<th>Match Rating</th>
+									<th>Goal</th>
+								</tr>
+								{% for player in Home_team_players %}
+								<tr>
+									<td>{{player.Name}}</td>
+									<td>{{player.Team}}</td>
+									<td>{{player.Ability}}</td>
+									<td>{{player.OffensiveAbility}}</td>
+									<td>{{player.AttackAbility}}</td>
+									<td>{{player.OffensivePerformance}}</td>
+									<td>{{player.NewMotivation}}</td>
+									<td>{{player.MotivationAdjustedOffensivePerformance}}</td>
+									<td>{{player.OffensiveValue}}</td>
+									<td>{{player.OffensiveRating}}</td>
+									<td>{{player.DefensiveRating}}</td>
+									<td>{{player.MatchRating}}</td>
+									<td>{{player.GoalPlayer}}</td>
+								</tr>	
+								{% endfor %}
+								{% for player in Away_team_players %}
+								<tr>
+									<td>{{player.Name}}</td>
+									<td>{{player.Team}}</td>
+									<td>{{player.Ability}}</td>
+									<td>{{player.OffensiveAbility}}</td>
+									<td>{{player.AttackAbility}}</td>
+									<td>{{player.OffensivePerformance}}</td>
+									<td>{{player.NewMotivation}}</td>
+									<td>{{player.MotivationAdjustedOffensivePerformance}}</td>
+									<td>{{player.OffensiveValue}}</td>
+									<td>{{player.OffensiveRating}}</td>
+									<td>{{player.DefensiveRating}}</td>
+									<td>{{player.MatchRating}}</td>
+									<td>{{player.GoalPlayer}}</td>
+								</tr>	
+								{% endfor %}
+							</table>
+				    	</div> 
+						<div class="tab-pane" id="DefPerformance">
+							<table class ="table table-sm table-striped">
+								<tr>
+									<th>Player Name</th>
+									<th>Team</th>
+									<th>Def Performance</th>
+									<th>Def Value</th>
+									<th>Mot Adj Def Perf</th>
+									<th>Def Rating</th>
+								</tr>
+								{% for player in Home_team_players %}
+								<tr>
+									<td>{{player.Name}}</td>
+									<td>{{player.Team}}</td>
+									<td>{{player.DefensivePerformance}}</td>
+									<td>{{player.DefensiveValue}}</td>
+									<td>{{player.MotivationAdjustedDefensivePerformance}}</td>
+									<td>{{player.DefensiveRating}}</td>
+								</tr>	
+								{% endfor %}
+								{% for player in Away_team_players %}
+								<tr>
+									<td>{{player.Name}}</td>
+									<td>{{player.Team}}</td>
+									<td>{{player.DefensivePerformance}}</td>
+									<td>{{player.DefensiveValue}}</td>
+									<td>{{player.MotivationAdjustedDefensivePerformance}}</td>
+									<td>{{player.DefensiveRating}}</td>
+								</tr>	
+								{% endfor %}
+							</table>
+				    	</div> 
+				    	<div class="tab-pane" id="Fitness_Motivation">
+							<table class ="table table-sm table-striped">
+								<tr>
+									<th>Player Name</th>
+									<th>Team</th>
+									<th>Fitness</th>
+									<th>Fitness + - </th>
+									<th>Motivation</th>
+									<th>Motivation + - </th>
+									<th>Pers Motivation</th>
+									<th>Pers Mot + - </th>
+									<th>Adj Pers Motivation</th>
+									<th>Tot Motivation</th>
+								</tr>
+								{% for player in Home_team_players %}
+								<tr>
+									<td>{{player.Name}}</td>
+									<td>{{player.Team}}</td>
+									<td>{{player.NewFitness}}</td>
+									<td>{{player.FitnessChange}}</td>
+									<td>{{player.NewMotivation}}</td>
+									<td>{{player.MotivationChange}}</td>
+									<td>{{player.PersonalMotivation}}</td>
+									<td>{{player.PersonalMotivationChange}}</td>
+									<td>{{player.AdjustedPersonalMotivation}}</td>
+									<td>{{player.TotalMotivationChange}}</td>
+								</tr>	
+								{% endfor %}
+								{% for player in Away_team_players %}
+								<tr>
+									<td>{{player.Name}}</td>
+									<td>{{player.Team}}</td>
+									<td>{{player.NewFitness}}</td>
+									<td>{{player.FitnessChange}}</td>
+									<td>{{player.NewMotivation}}</td>
+									<td>{{player.MotivationChange}}</td>
+									<td>{{player.PersonalMotivation}}</td>
+									<td>{{player.PersonalMotivationChange}}</td>
+									<td>{{player.AdjustedPersonalMotivation}}</td>
+									<td>{{player.TotalMotivationChange}}</td>
+								</tr>	
+								{% endfor %}
+							</table>
+				    	</div>
+						<div class="tab-pane" id="Ability">
+				        	content 1
+				    	</div>
+			    	</div>
+			      </div>
+
+
+
+
+				<h2>Aggregated</h2>
+				<table class ="table table-sm table-striped">
+					<tr>
+						<th>Player Name</th>
+						<th>OffensiveAbilityChange</th>
+						<th>DefensiveAbilityChange</th>	
+					</tr>
+					{% for key,values in df3.items %}
+					<tr>
+						<td>{{key}}</td>
+						{% for value in values %}
+							<td>{{value}}</td>
+						{% endfor %}
+					</tr>	
+					{% endfor %}
+				</table>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock %}

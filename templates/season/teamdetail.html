@@ -1,0 +1,82 @@
+{% extends "season/base.html" %}
+{% load staticfiles %}
+{% block extrahead %}
+	<link rel="stylesheet" type="text/css" href="{% static 'season/team_detail.css' %}">
+{% endblock %}
+
+{% block body_block %}
+
+<div class="grid-container">
+  <div class="grid-item grid-header">
+  	<div>		
+		<h1>{{team.Name}} <span class="badge badge-info">{{team.Division}}</span></h1>
+	</div>
+	<div>
+		<h5>{{team.FullName}}</h5>
+	</div>
+  </div>
+  <div class="grid-item grid-logo">
+  	<div>
+		{% if team.Logo %}
+			<img class="logo" src="{{team.Logo.url}}">  
+		{% endif %}
+	</div>
+  </div>
+  <div class="grid-item item3">
+  	<h2>Background</h2>
+	<p>{{teaminfo.Background}}</p>
+  </div>
+  <div class="grid-item item4">
+  	<h2>Stadium</h2>
+	<p>{{teaminfo.Arena}}</p>
+	<p>{{teaminfo.ArenaDescription}}</p>
+  </div>
+  <div class="grid-item item5">
+  	<h2>Fan Club</h2>
+	<p>{{teaminfo.FanClub}}</p>
+	<p>{{teaminfo.FanClubDescription}}</p>
+  </div>
+  <div class="grid-item item6">
+  	<h2>Junior team</h2>
+  </div>
+  <div class="grid-item item7">7</div>
+  <div class="grid-item item8">8</div>
+</div>
+
+
+<div>
+	<a href="{% url "season:team_update" pk=team.pk%}"><button>Update</button></a>
+</div>
+<div class="row">
+	<div>		
+		<p>{{team.Name}}</p>
+	</div>
+	<div>
+		<p>{{team.FullName}}</p>
+	</div>
+	<div>
+		{% if team.Logo %}
+			<img class="logo" src="{{team.Logo.url}}">  
+		{% endif %}
+	</div>
+</div>
+<div>
+	<h2>info</h2>
+	<p>{{teaminfo.Background}}</p>
+</div>
+<div>
+	<p>{{team.Division}}</p>
+</div>
+<div>		
+	<h2>Stadium</h2>
+	<p>{{teaminfo.Arena}}</p>
+	<p>{{teaminfo.ArenaDescription}}</p>
+</div>
+<div>
+	<h2>Fan Club</h2>
+	<p>{{teaminfo.FanClub}}</p>
+	<p>{{teaminfo.FanClubDescription}}</p>
+</div>
+
+
+{% endblock body_block %} 

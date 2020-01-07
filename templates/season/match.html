@@ -1,0 +1,109 @@
+
+{% extends "season/base.html" %}
+
+<!--la till load staticfiles för att det inte fungerar att använda static inom block taggar. i ett senare skede bör logo vara ett attribut till class istället för att använda static-->
+{% load staticfiles %}
+
+{% block extrahead %}
+	<link rel="stylesheet" type="text/css" href="{% static 'season/style_match.css' %}">
+{% endblock %}
+
+	{% block title %}Match{% endblock title %}
+
+{% block body_block %} 
+<div class="container">
+	<div class="row">
+		{% include 'season/_match_header.html' %}
+	</div>
+	<div class="row">
+		{% include 'season/_match_menu.html' %}
+	</div>
+
+	{% if Played == True %}
+		<div class="row">
+			<div class="col-sm-9">
+				<ul class="list-group">
+					{%for round in all_rounds_so_far%}
+							{% if round.HomeOrAway == "Home" and round.AttackResult == "Goal" %}
+								<li class="list-group-item">
+									<div class="div_score_home">	
+										<span class="span_score_home"> {{round.GoalsForwardAfterRound}} - {{round.GoalsAgainstAfterRound}}</span>
+									</div>
+									<div class="div_scorer_home">			    
+										<span class="span_scorer_home"> {{round.EventPlayerAttack.Name}}</span>
+									</div>
+									<div class="div_scorer_home_image">			    
+										<img src="{{round.EventPlayerAttack.Image.url}}" alt="score_player_image" class="img-fluid rounded-circle score_player_image">
+									</div> 
+								</li>
+
+							{% elif round.HomeOrAway == "Away" and round.AttackResult == "Goal" %}	
+								<li class="list-group-item">
+									<div class="div_scorer_away">			    
+										<span class="span_scorer_away"> {{round.EventPlayerAttack.Name}}</span>
+									</div>
+									<div class="div_score_away">	
+										<span class="span_score_away"> {{round.GoalsAgainstAfterRound}} - {{round.GoalsForwardAfterRound}}</span>
+									</div>
+									<div class="div_scorer_away_image">			    
+										<img src="{{round.EventPlayerAttack.Image.url}}" alt="score_player_image" class="img-fluid rounded-circle score_player_image">
+									</div>
+								</li>
+							{% endif %}
+					{%endfor%}
+				</ul>
+
+			</div>
+		</div>
+	{% else %}
+	<div class="row">
+		<div class="Background-titles">
+			<h3>Arena</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+			<p>{{Home_team_background.Arena}}</p>
+			<p>{{Home_team_background.ArenaDescription}}</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="Background-titles">
+			<h3>Background</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+			<p>{{Home_team_background.FullName}}</p>
+			<p>{{Home_team_background.Background}}</p>
+		</div>
+		<div class="col-sm-4">
+			<p>{{Away_team_background.FullName}}</p>
+			<p>{{Away_team_background.Background}}</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="Background-titles">
+			<h3>Fanclub</h3>
+		</div>
+	</div>
+	<div class="row">
+			<div class="col-sm-4">
+				<p>{{Home_team_background.FanClub}}</p>
+				<p>{{Home_team_background.FanClubDescription}}</p>
+			</div>
+			<div class="col-sm-4">
+				<p>{{Away_team_background.FanClub}}</p>
+				<p>{{Away_team_background.FanClubDescription}}</p>
+			</div>
+	</div>
+	{% endif %}
+</div>
+{% endblock %} 
+
+
+
+
+{% block extra_JS %}
+  <script src="{% static 'season/script_match.js' %}"></script>
+{% endblock extra_JS %}

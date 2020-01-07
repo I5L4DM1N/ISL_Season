@@ -1,0 +1,29 @@
+#header{
+	background-color: green;
+	height: 600px
+}
+ 
+
+.span_scorer_away,
+.span_score_away{
+	display: block;
+	float: right;
+}
+
+.Testspan{
+	height: 100px;
+	width:100px;
+	background-color: red;
+}
+
+/*.Background-titles{
+	background-color: yellow;
+	position:absolute;
+    /** Rotation */
+    -webkit-transform: rotate(-90deg); 
+    -moz-transform: rotate(-90deg);    
+    transform:rotate(-90deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+    padding: 5px;
+}*/

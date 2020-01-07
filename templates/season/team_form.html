@@ -1,0 +1,22 @@
+{% extends "season/base.html" %}
+{% load staticfiles %}
+{% block extrahead %}
+	<link rel="stylesheet" type="text/css" href="{% static 'season/team_detail.css' %}">
+{% endblock %}
+
+{% block body_block %}
+
+
+<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+	{% include 'season/form_template.html' %}
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-success">Submit</button>
+		</div>	
+	</div>
+
+</form>
+
+
+{% endblock body_block %} 

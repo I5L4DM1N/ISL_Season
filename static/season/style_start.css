@@ -1,0 +1,9 @@
+.full_season_div{
+	margin-bottom: 1rem;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}

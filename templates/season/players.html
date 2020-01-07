@@ -1,0 +1,18 @@
+{% extends "season/base.html" %}
+
+
+{% block body_block %}
+
+
+	{%if all_players%}
+	<h3>list of all players</h3>
+	<ul>
+		{%for player in all_players %}
+		<li><a href="{% url "season:player" Name=player.Name%}"> {{ player }}</a></li>
+		{% endfor %}
+	</ul>
+	{% else %}
+		<h3>No players to display</h3>
+	{% endif %}
+
+{% endblock body_block %} 

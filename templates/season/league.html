@@ -1,0 +1,193 @@
+{% extends "season/base.html" %}
+
+
+{% block body_block %}
+
+
+	{%if Div1%}
+	
+
+	<table class ="table table-sm table-striped">
+		<h2>Div 1</h2>
+		<tr>
+			<th>Place</th>	
+			<th>Team Name</th>
+			<th>Played Games</th>
+			<th>Won</th>
+			<th>Drawn</th>
+			<th>Lost</th>
+			<th>Goals scored</th>
+			<th>Goals condeded</th>
+			<th>Goal difference</th>
+			<th>Points</th>
+		</tr>
+			{% for team in Div1 %}
+			<tr>
+				<td>{{team.Place}}</td>
+				<td><span>{{team.Team.Name}}</span><span><img src="{{team.Team.Logo.url}}" class="img-fluid rounded-circle score_player_image"></span></td>
+				<td>{{team.PlayedGames}}</td>
+				<td>{{team.Won}}</td>
+				<td>{{team.Drawn}}</td>
+				<td>{{team.Lost}}</td>
+				<td>{{team.GoalsScored}}</td>
+				<td>{{team.GoalsConceded}}</td>
+				<td>{{team.GoalDifference}}</td>
+				<td>{{team.Points}}</td>
+			</tr>			
+			{% endfor %}
+	</table>
+
+	<table class ="table table-sm table-striped">
+		<h2>Div 2</h2>
+		<tr>
+			<th>Place</th>	
+			<th>Team Name</th>
+			<th>Played Games</th>
+			<th>Won</th>
+			<th>Drawn</th>
+			<th>Lost</th>
+			<th>Goals scored</th>
+			<th>Goals condeded</th>
+			<th>Goal difference</th>
+			<th>Points</th>
+		</tr>
+			{% for team in Div2 %}
+			<tr>
+				<td>{{team.Place}}</td>
+				<td><span>{{team.Team.Name}}</span><span><img src="{{team.Team.Logo.url}}" class="img-fluid rounded-circle score_player_image"></span></td>
+				<td>{{team.PlayedGames}}</td>
+				<td>{{team.Won}}</td>
+				<td>{{team.Drawn}}</td>
+				<td>{{team.Lost}}</td>
+				<td>{{team.GoalsScored}}</td>
+				<td>{{team.GoalsConceded}}</td>
+				<td>{{team.GoalDifference}}</td>
+				<td>{{team.Points}}</td>
+			</tr>			
+			{% endfor %}
+	</table>
+
+	<table class ="table table-sm table-striped">
+		<h2>Div 3</h2>
+		<tr>
+			<th>Place</th>	
+			<th>Team Name</th>
+			<th>Played Games</th>
+			<th>Won</th>
+			<th>Drawn</th>
+			<th>Lost</th>
+			<th>Goals scored</th>
+			<th>Goals condeded</th>
+			<th>Goal difference</th>
+			<th>Points</th>
+		</tr>
+			{% for team in Div3 %}
+			<tr>
+				<td>{{team.Place}}</td>
+				<td><span>{{team.Team.Name}}</span><span><img src="{{team.Team.Logo.url}}" class="img-fluid rounded-circle score_player_image"></span></td>
+				<td>{{team.PlayedGames}}</td>
+				<td>{{team.Won}}</td>
+				<td>{{team.Drawn}}</td>
+				<td>{{team.Lost}}</td>
+				<td>{{team.GoalsScored}}</td>
+				<td>{{team.GoalsConceded}}</td>
+				<td>{{team.GoalDifference}}</td>
+				<td>{{team.Points}}</td>
+			</tr>			
+			{% endfor %}
+	</table>
+
+	<table class ="table table-sm table-striped">
+		<h2>Div 4</h2>
+		<tr>
+			<th>Place</th>	
+			<th>Team Name</th>
+			<th>Played Games</th>
+			<th>Won</th>
+			<th>Drawn</th>
+			<th>Lost</th>
+			<th>Goals scored</th>
+			<th>Goals condeded</th>
+			<th>Goal difference</th>
+			<th>Points</th>
+		</tr>
+			{% for team in Div4 %}
+			<tr>
+				<td>{{team.Place}}</td>
+				<td><span>{{team.Team.Name}}</span><span><img src="{{team.Team.Logo.url}}" class="img-fluid rounded-circle score_player_image"></span></td>
+				<td>{{team.PlayedGames}}</td>
+				<td>{{team.Won}}</td>
+				<td>{{team.Drawn}}</td>
+				<td>{{team.Lost}}</td>
+				<td>{{team.GoalsScored}}</td>
+				<td>{{team.GoalsConceded}}</td>
+				<td>{{team.GoalDifference}}</td>
+				<td>{{team.Points}}</td>
+			</tr>			
+			{% endfor %}
+	</table>
+
+	<table class ="table table-sm table-striped">
+		<h2>Div 5</h2>
+		<tr>
+			<th>Place</th>	
+			<th>Team Name</th>
+			<th>Played Games</th>
+			<th>Won</th>
+			<th>Drawn</th>
+			<th>Lost</th>
+			<th>Goals scored</th>
+			<th>Goals condeded</th>
+			<th>Goal difference</th>
+			<th>Points</th>
+		</tr>
+			{% for team in Div5 %}
+			<tr>
+				<td>{{team.Place}}</td>
+				<td><span>{{team.Team.Name}}</span><span><img src="{{team.Team.Logo.url}}" class="img-fluid rounded-circle score_player_image"></span></td>
+				<td>{{team.PlayedGames}}</td>
+				<td>{{team.Won}}</td>
+				<td>{{team.Drawn}}</td>
+				<td>{{team.Lost}}</td>
+				<td>{{team.GoalsScored}}</td>
+				<td>{{team.GoalsConceded}}</td>
+				<td>{{team.GoalDifference}}</td>
+				<td>{{team.Points}}</td>
+			</tr>			
+			{% endfor %}
+	</table>
+
+	<table class ="table table-sm table-striped">
+		<h2>Div 6</h2>
+		<tr>
+			<th>Place</th>	
+			<th>Team Name</th>
+			<th>Played Games</th>
+			<th>Won</th>
+			<th>Drawn</th>
+			<th>Lost</th>
+			<th>Goals scored</th>
+			<th>Goals condeded</th>
+			<th>Goal difference</th>
+			<th>Points</th>
+		</tr>
+			{% for team in Div6 %}
+			<tr>
+				<td>{{team.Place}}</td>
+				<td><span>{{team.Team.Name}}</span><span><img src="{{team.Team.Logo.url}}" class="img-fluid rounded-circle score_player_image"></span></td>
+				<td>{{team.PlayedGames}}</td>
+				<td>{{team.Won}}</td>
+				<td>{{team.Drawn}}</td>
+				<td>{{team.Lost}}</td>
+				<td>{{team.GoalsScored}}</td>
+				<td>{{team.GoalsConceded}}</td>
+				<td>{{team.GoalDifference}}</td>
+				<td>{{team.Points}}</td>
+			</tr>			
+			{% endfor %}
+	</table>
+	{% else %}
+		<h3>No matches played</h3>
+	{% endif %}
+
+{% endblock body_block %} 

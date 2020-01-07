@@ -1,0 +1,78 @@
+{% load staticfiles %}
+<div class="col-sm-3" id="home_team">
+	<div class="col-sm-8 mx-auto team_logo_div">
+		<img src="{{Home_team.Logo.url}}" alt="home_team_logo" class="img-fluid rounded-circle">
+	</div>
+	<div class="text-center team_name_div">
+		<span>{{Home_team.Name}}</span>
+	</div>
+</div> 
+<div class="col-sm-3" id="result">
+	{% if Played == True %}
+		<div class="col-sm-12 text-center" id="result_score_div">
+			<span>
+				{% if current_round%}
+					{{current_round.GoalsForwardAfterRound}} - {{current_round.GoalsAgainstAfterRound}}
+				{% else %}
+					0 - 0
+				{% endif %}
+			</span>
+		</div> 
+		<div class="col-sm-12 text-center" id="result_round_div">
+			<span>Round</span>
+			<span>{{GameRound}}</span>
+		</div>
+			<div class="col-sm-12 text-center" id="result_round_div">
+					{% if CurrentPage == "Match" %}
+						{% if GameRound == 10 %}
+							<a href="{% url "season:match" GameID=GameID GameRound=0 %}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden = "true"></span>Re-set</button></a>
+						{% else %}
+							<a href="{% url "season:match" GameID=GameID GameRound=NextRound %}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden = "true"></span>Next</button></a>
+							<a href="{% url "season:match" GameID=GameID GameRound=0 %}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden = "true"></span>Re-set</button></a>
+						{% endif %}
+					{% elif CurrentPage == "Squad" %}
+						{% if GameRound == 10 %}
+							<a href="{% url "season:matchsquads" GameID=GameID GameRound=0 %}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden = "true"></span>Re-set</button></a>
+						{% else %}
+							<a href="{% url "season:matchsquads" GameID=GameID GameRound=NextRound %}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden = "true"></span>Next</button></a>
+							<a href="{% url "season:matchsquads" GameID=GameID GameRound=0 %}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden = "true"></span>Re-set</button></a>
+						{% endif %}	 
+					{% elif CurrentPage == "Stats" %}
+						{% if GameRound == 10 %}
+							<a href="{% url "season:matchstats" GameID=GameID GameRound=0 %}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden = "true"></span>Re-set</button></a>
+						{% else %}
+							<a href="{% url "season:matchstats" GameID=GameID GameRound=NextRound %}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden = "true"></span>Next</button></a>
+							<a href="{% url "season:matchstats" GameID=GameID GameRound=0 %}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden = "true"></span>Re-set</button></a>
+						{% endif %}		
+					{% elif CurrentPage == "Table" %}
+						{% if GameRound == 10 %}
+							<a href="{% url "season:matchtable" GameID=GameID GameRound=0 %}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden = "true"></span>Re-set</button></a>
+						{% else %}
+							<a href="{% url "season:matchtable" GameID=GameID GameRound=NextRound %}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden = "true"></span>Next</button></a>
+							<a href="{% url "season:matchtable" GameID=GameID GameRound=0 %}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play" aria-hidden = "true"></span>Re-set</button></a>
+						{% endif %}			   
+					{% endif %}
+			</div>
+	{% else %}
+		<div class="col-sm-12 text-center" id="result_score_div">
+			<span>
+			</span>
+		</div>
+		<div class="col-sm-12 text-center" id="result_round_div">
+			<span>Game not started</span>
+			<span></span>
+		</div>
+		<div class="col-sm-12 text-center" id="result_round_div">
+		</div>
+	{% endif %}
+
+	<span></span>
+</div>
+<div class="col-sm-3" id="away_team">
+	<div class="col-sm-8 mx-auto team_logo_div">
+		<img src="{{Away_team.Logo.url}}" alt="away_team_logo" class="img-fluid rounded-circle">
+	</div>
+	<div class="text-center team_name_div">
+		<span>{{Away_team.Name}}</span>
+	</div>
+</div>

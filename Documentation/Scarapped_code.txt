@@ -1,0 +1,319 @@
+        #self.GK_offensive_ability_Neutral  
+        #self.LM_offensive_ability_Neutral
+        #self.RM_offensive_ability_Neutral
+        #self.ST_offensive_ability_Neutral
+        #self.GK_defensive_ability_Neutral
+        #self.LM_defensive_ability_Neutral
+        #self.RM_defensive_ability_Neutral
+        #self.ST_defensive_ability_Neutral
+        #self.GK_ability_Neutral
+        #self.LM_ability_Neutral
+        #self.RM_ability_Neutral
+        #self.ST_ability_Neutral
+        #self.GK_offensive_ability_Causious
+        #self.LM_offensive_ability_Causious
+        #self.RM_offensive_ability_Causious
+        #self.ST_offensive_ability_Causious
+        #self.GK_defensive_ability_Causious
+        #self.LM_defensive_ability_Causious
+        #self.RM_defensive_ability_Causious
+        #self.ST_defensive_ability_Causious
+        #self.GK_ability_Causious
+        #self.LM_ability_Causious
+        #self.RM_ability_Causious
+        #self.ST_ability_Causious
+        #self.GK_offensive_ability_Attcking
+        #self.LM_offensive_ability_Attcking
+        #self.RM_offensive_ability_Attcking
+        #self.ST_offensive_ability_Attcking
+        #self.GK_defensive_ability_Attcking
+        #self.LM_defensive_ability_Attcking
+        #self.RM_defensive_ability_Attcking
+        #self.ST_defensive_ability_Attcking
+        #self.GK_ability_Attcking
+        #self.LM_ability_Attcking
+        #self.RM_ability_Attcking
+        #self.ST_ability_Attcking
+
+
+        #self.adjusted_offensive_ability = self.offensive_ability * max(min(Fitness * Personal_chemistry * Personal_motivation,max_adjustment),min_adjustment)
+        #self.adjusted_defensive_ability = self.defensive_ability * max(min(Fitness * Personal_chemistry * Personal_motivation,max_adjustment),min_adjustment)
+
+
+
+Fitness_update
+def Recovery(Day):
+	conn = sqlite3.connect(DatabasePath)
+	c = conn.cursor()
+
+	c.execute('SELECT Name, Fitness, Team FROM Season_GeneralPlayer')
+	players = c.fetchall()
+
+	no_of_players = len(players)
+	for i in range(0,no_of_players):
+		Player_values = players[i]
+		Fitness_change = random.normalvariate(7.5,1.8) / 100
+		Name = Player_values[0]
+		Fitness = Player_values[1] 
+		New_fitness = min(max(Fitness + Fitness_change,0),1)
+
+		c.execute('UPDATE Season_GeneralPlayer SET Fitness = (?) WHERE Name = (?)',(New_fitness,Name))
+		conn.commit()
+
+		c.execute('INSERT INTO Season_PlayerFitnessLog (Name,FitnessChange,Fitness,TypeOfUpdate) \
+	        VALUES (?,?,?,?)',
+	             (Name,\
+	              Fitness_change,New_fitness,"Dayly"))
+		conn.commit()
+		
+
+	c.close()
+
+
+def Dummyfitness():
+	conn = sqlite3.connect(DatabasePath)
+	c = conn.cursor()
+
+	c.execute('SELECT Player_name, Fitness FROM Season_GeneralPlayer')
+	players = c.fetchall()
+
+	no_of_players = len(players)
+	for i in range(0,no_of_players): 
+		Player_values = players[i]
+		Name = Player_values[0]
+		 
+		New_fitness = 0.9
+
+		c.execute('UPDATE Team_Squads SET Fitness = (?) WHERE Player_name = (?)',(New_fitness,Name))
+		conn.commit()
+
+	c.close()
+
+
+Motivation_update
+def Motivation_updateOld():
+	DatabasePath = "C:\\Users\\anton\\OneDrive\\ISL_Season\\db.sqlite3"
+	conn = sqlite3.connect(DatabasePath)
+	c = conn.cursor()
+
+	c.execute('SELECT Name, PlayerMotivation FROM Season_GeneralPlayer')
+	players = c.fetchall()
+
+	no_of_players = len(players)
+	for i in range(0,no_of_players):
+		#print(players[i])
+		Player_values = players[i]
+		Motivation_change = random.normalvariate(0,1.8) / 100
+		Name = Player_values[0]
+		Personal_motivation = Player_values[1] 
+		New_motivation = min(max(Personal_motivation + Motivation_change,0),1)
+
+		c.execute('UPDATE Season_GeneralPlayer SET PlayerMotivation = (?) WHERE Name = (?)',(New_motivation,Name))
+		conn.commit()
+
+		c.execute('INSERT INTO Season_PlayerMotivationLog (Name,MotivationChange,Motivation,TypeOfUpdate) \
+	        VALUES (?,?,?,?)',
+	             (Name,\
+	              Motivation_change,New_motivation,"Dayly"))
+		#print(Name,Motivation_change,New_motivation)
+		conn.commit()
+		
+
+	c.close()
+	
+	
+	
+	Day_end template
+	
+	{% with test as player_fitness %}
+		<span>With progress bar </span>
+		<div class="progress">
+			<div class="progress-bar" role="progressbar" style="width: {{player_fitness}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+		</div>
+	{% endwith %}
+		<span>Withratio progress bar {% widthratio test_player.Fitness 2 100 %} </span>
+		<div class="progress">
+			<div class="progress-bar" role="progressbar" style="width: {% widthratio test_player.Fitness 2 100 %}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+		</div>
+	
+	
+	Base.html
+	
+	<!---Jquery-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!---Bootstrap's javascript-->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>﻿
+	
+	
+	Calendar
+	<ul>
+		{%for match in all_matches %}
+		<li>
+			<span>{{match.Home}}-{{match.Away}}</span>
+			<span>| Tournament:{{match.Tournament}} Round: {{match.TournamnetRound}} </span>
+			{% if match.Played == True %}
+			    <span>| Result: {{match.GoalsHome}}-{{match.GoalsAway}}</span>				
+			{% endif %}
+			<a href="{% url "season:match" GameID=match.GameID GameRound=0 %}"> Game ID {{ match.GameID }}</a></li>
+		{% endfor %} 
+	</ul>
+	
+	
+	Models
+	class Player(models.Model):
+		FirstName = models.CharField(max_length=100)
+		LastName = models.CharField(max_length=100)
+		FullName  = str(FirstName)+ " " + str(LastName)
+		Team = models.ForeignKey(Team, on_delete = models.CASCADE)
+		Avatar = 'season/images/avatar/'+str(FullName)+'.png'
+	
+	
+		def __str__(self):
+			return self.FirstName + ' ' + self.LastName
+	
+	# #Initial Classes
+	# class Fixture(models.Model):
+	# 	Match_ID = models.IntegerField()
+	# 	Home_team_name = models.CharField(max_length=50)	
+	# 	Away_team_name = models.CharField(max_length=50)
+	# 	Status = models.CharField(max_length=15)
+	
+	# 	def __str__(self):
+	# 		return 'Match: ' + str(self.Match_ID) + ' ' + self.Home_team_name + ' vs. ' + self.Away_team_name
+	
+	
+	
+	# class Match_team_data(models.Model):
+	# 	Match_ID = models.IntegerField()
+	# 	Round = models.IntegerField()
+	# 	Home_team_name = models.CharField(max_length=50)	
+	# 	Away_team_name = models.CharField(max_length=50)
+	# 	Home_team_score = models.IntegerField()
+	# 	Away_team_score = models.IntegerField()
+	
+	# 	def __str__(self):
+	# 		return 'Match: ' + str(self.Match_ID) + ' ' + self.Home_team_name + ' vs. ' + self.Away_team_name + ' Round: ' + str(self.Round)
+	
+	# class Team(models.Model):
+	# 	Name = models.CharField(max_length=100)
+	# 	FullName = models.CharField(max_length=100, default='SOME STRING')
+	# 	Logo = 'season/images/logo/'+str(Name)+'.png'
+	
+	# 	def __str__(self):
+	# 		return self.Name
+	
+	
+	GeneralPlayer
+	
+	
+	
+	Calendar.html
+	
+
+				<table class="table table-sm table-striped">
+					<tr>
+						<th>Home-Away</th>
+						<th>Tournament</th>
+						<th>Round</th>
+						<th>Result</th>
+						<th>Game ID</th>
+					</tr>
+					{% for match in all_matches %}
+					<tr>
+						<td>{{match.Home}} <img src="{{match.HomeTeam.Logo.url}}" class="img-fluid rounded-circle score_player_image">- {{match.Away}} <img src="{{match.AwayTeam.Logo.url}}" class="img-fluid rounded-circle score_player_image"></td>
+						<td>{{match.Tournament}}</td>
+						<td>{{match.TournamnetRound}}</td> 
+						{% if match.Played == True %}
+						    <td>{{match.GoalsHome}}-{{match.GoalsAway}}</td>
+						{% else %}
+						<td></td>				
+						{% endif %}
+						<td><a href="{% url "season:match" GameID=match.GameID GameRound=0%}"> Game ID {{ match.GameID }}</a></td>				
+					</tr>
+						
+					{% endfor %}
+				</table>
+			{% else %}
+				<h3>No matches to play today - Day {{current_day.Day}}</h3>
+			{% endif %}
+		</div>
+
+
+Calendar.html
+
+<div class="row">
+	<div class="col-sm-2">
+		<p>Current day: {{current_day.Day}}</p>
+		<p>Current Week: {{current_day.Week}}</p>
+		{% if last_game == None %}
+			<p>Last Game: No game played</p>
+		{% else %}
+			<p>Last Game: {{last_game.GameID}}</p>
+			<p>Last Game Day:{{last_game.Day}} </p>
+		{% endif %}
+		
+		<p>Next Game: {{next_game.GameID}}</p>
+		<p>Next Game Day:{{next_game.Day}} </p>
+		
+		{% if current_day.EndofWeek == True %}
+		    <form method="post">
+				{% csrf_token %}
+				<button type="submit" name="EndWeek">End Week?</button>
+			</form>
+		
+		{% elif current_day.EndofDay == True %}
+			<form method="post">
+				{% csrf_token %}
+				<button type="submit" name="Endday">End day?</button>
+			</form>
+
+		{% else %}
+			<form method="post">
+				{% csrf_token %}
+				<button type="submit" name="PlayNextGame">Play Next Game</button>
+			</form>
+
+			<form method="post">
+				{% csrf_token %}
+				<button type="submit" name="PlayFullDay">Play Full Day</button>
+			</form>
+		{% endif %}
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dayendmodal">
+		  End of Day data
+		</button>
+	</div>
+	<div class="col-sm-2">
+		<form method="post">
+			{% csrf_token %}
+			<button type="submit" name="ReSetGames">Re-set Games</button>
+		</form>
+	</div>
+</div>
+
+
+<p>Current day: {{current_day.Day}}</p>
+<p>Current Week: {{current_day.Week}}</p>
+{% if last_game == None %}
+	<p>Last Game: No game played</p>
+{% else %}
+	<p>Last Game: {{last_game.GameID}}</p>
+	<p>Last Game Day:{{last_game.Day}} </p>
+{% endif %}
+
+<p>Next Game: {{next_game.GameID}}</p>
+<p>Next Game Day:{{next_game.Day}} </p>
+
+
+
+
+{% if ATST.NewFitness > 0.8 %}
+	<div class="progress-bar progress-bar-success" role="progressbar" style="width: {% widthratio ATST.NewFitness 1 100 %}%;">
+	{% widthratio ATST.NewFitness 1 100 %}	
+{% elif ATST.NewFitness > 0.6 %}
+	<div class="progress-bar progress-bar-warning" role="progressbar" style="width: {% widthratio ATST.NewFitness 1 100 %}%;">
+	{% widthratio ATST.NewFitness 1 100 %}
+{% else %}
+	<div class="progress-bar progress-bar-danger" role="progressbar" style="width: {% widthratio ATST.NewFitness 1 100 %}%;">
+	{% widthratio ATST.NewFitness 1 100 %}
+

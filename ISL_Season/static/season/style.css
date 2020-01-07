@@ -1,0 +1,16 @@
+body{
+	background: white url("images/site/snow.jpg");
+}
+
+.navbar{
+	border-radius: 0;
+	font-family: 'Sarpanch', sans-serif;
+}
+
+.navbar-brand{
+	font-family: 'Sarpanch', sans-serif;
+	font-size: 2.8rem;
+}
+
+ 
+

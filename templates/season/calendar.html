@@ -1,0 +1,291 @@
+{% extends "season/base.html" %}
+
+{% load staticfiles %}
+	{% block extrahead %}
+	<!--används inte just nu-->
+	  <link rel="stylesheet" type="text/css" href="{% static 'season/style_calendar.css' %}">
+	{% endblock %}
+
+ 
+{% block body_block %}
+<div class="container">
+	<div class="row weekdays_row">
+		<div class="col-sm-2">
+			<h5>Week {{current_day.Week}}</h5>
+		</div>
+
+		{% for day in Current_week_days %}
+			{% if day == current_day.Day %}
+				<div class="col-sm-1 border border-success">
+					<span>Day {{day}}</span>
+					<span>Current</span>
+				</div>
+
+			{% elif day == next_game.Day %}
+				<div class="col-sm-1 border border-info">
+					<span>Day {{day}}</span>
+					<span>Next</span>
+				</div>
+			{% elif day == last_game.Day %}
+				<div class="col-sm-1 border border-warning">
+					<span>Day {{day}}</span>
+					<span>Last</span>
+				</div>
+			{% else %}
+				<div class="col-sm-1">
+					<span>Day {{day}}</span>
+				</div>
+			{% endif %}			
+		{% endfor %}		
+	</div>
+	<div class="row buttons_row">
+		<div class="col-sm-2">			
+			{% if current_day.EndofWeek == True %}
+			    <form method="post">
+					{% csrf_token %}
+					<button type="submit"  class="btn btn-primary" name="EndWeek">End Week?</button>
+				</form>
+			
+			{% elif current_day.EndofDay == True %}
+				<form method="post">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-primary" name="Endday">End day?</button>
+				</form>
+
+			{% else %}
+				<form method="post">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-success" name="PlayNextGame">Play Next Game</button>
+				</form>
+		</div>
+		<div class="col-sm-2">	
+				<form method="post">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-primary" name="PlayFullDay">Play Full Day</button>
+				</form>
+			{% endif %}
+		</div>
+		<div class="col-sm-2">	
+			<!-- Button trigger modal -->
+			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#dayendmodal">
+			  End of Day data
+			</button>
+		</div>
+		<div class="col-sm-2">
+			<form method="post">
+				{% csrf_token %}
+				<button type="submit" class="btn btn-danger" name="ReSetGames">Re-set Games</button>
+			</form>
+		</div>
+	</div>
+
+	{% if TypeOfDay == "Not Match Day" %}
+
+	{% else %}
+		<div class="row games_row">
+			{% if Division_table %}
+				<div class="col-sm-4">
+					<table class ="table table-sm table-striped">
+						<h4>{{Division_table.0.Tournament.Name}}</h4>
+						<tr>
+							<th>Place</th>	
+							<th>Team</th>
+							<th></th>
+							<th>Points</th>
+							<th>+ -</th>
+						</tr>
+							{% for team in Division_table %}
+								{% if team.id == next_game.HomeTeam.id or team.id == next_game.AwayTeam.id %}
+									<tr class="table-info">
+										<td>{{team.Place}}</td>
+										<td><span>{{team.Team.Name}}</span></td>
+										<td><span><img src="{{team.Team.Logo.url}}" class="img-fluid rounded-circle score_player_image"></span></td>
+										<td>{{team.Points}}</td>
+										<td>{{team.GoalDifference}}</td>
+									</tr>	
+								{% else %}
+									<tr>
+										<td>{{team.Place}}</td>
+										<td><span>{{team.Team.Name}}</span></td>
+										<td><span><img src="{{team.Team.Logo.url}}" class="img-fluid rounded-circle score_player_image"></span></td>
+										<td>{{team.Points}}</td>
+										<td>{{team.GoalDifference}}</td>
+									</tr>
+								{% endif %}			
+							{% endfor %}
+					</table>
+				</div>
+			{% endif %}
+			<div class="col-sm-6">
+				{%if all_matches%}
+					{% for Tournament in Tournaments %}
+					{% if Tournament.Name == "Cup" and TypeOfDay == "Cup Day" %}
+					<div id="accordion">
+					  <div class="card">
+					    <div class="card-header" id="headingOne">
+					      <h5 class="mb-0">
+					        <button class="{{Tournament.calendar_class}}" data-toggle="collapse" data-target="{{Tournament.calendar_datatarget}}" aria-expanded="{{Tournament.calendar_expanded}}" aria-controls="{{Tournament.calendar_id}}">
+					          {{Tournament.Name}}
+					        </button>
+					      </h5>
+					    </div>
+
+					    <div id="{{Tournament.calendar_id}}" class="{{Tournament.calendar_div_class}}" aria-labelledby="headingOne" data-parent="#accordion">
+					      <div class="card-body">
+						    <table class="table table-sm table-striped">
+								<tr>
+									<th>Div</th>
+									<th>Home</th>
+									<th>Result</th>
+									<th>Away</th>
+									<th>Div</th>
+								</tr>
+								{% for match in all_matches %}
+								{% if match.TournamentName == Tournament.Value  %}						
+									<tr>
+										<td><span>{{match.DivisionHome}}</span></td>
+										<td><span>{{match.Home}}</span>  <img src="{{match.HomeTeam.Logo.url}}" class="img-fluid rounded-circle score_player_image"></td>
+										{% if match.Played == True %}
+										 	<td><a href="{% url "season:match" GameID=match.GameID GameRound=0%}"> {{match.GoalsHome}}-{{match.GoalsAway}}</td>
+										{% else %}
+											<td><a href="{% url "season:match" GameID=match.GameID GameRound=0%}"> Not played </a></td>				
+										{% endif %}	
+										<td><img src="{{match.AwayTeam.Logo.url}}" class="img-fluid rounded-circle score_player_image">  <span>{{match.Away}}</span></td>
+										<td><span>{{match.DivisionAway}}</span></td>
+									</tr>
+								{% endif %}
+								{% endfor %}
+							</table>
+					      </div>
+					    </div>
+					  </div>
+					{% elif Tournament.Name != "Cup" and TypeOfDay == "Division Day" %}
+					<div id="accordion">
+					  <div class="card">
+					    <div class="card-header" id="headingOne">
+					      <h5 class="mb-0">
+					        <button class="{{Tournament.calendar_class}}" data-toggle="collapse" data-target="{{Tournament.calendar_datatarget}}" aria-expanded="{{Tournament.calendar_expanded}}" aria-controls="{{Tournament.calendar_id}}">
+					          {{Tournament.Name}}
+					        </button>
+					      </h5>
+					    </div>
+
+					    <div id="{{Tournament.calendar_id}}" class="{{Tournament.calendar_div_class}}" aria-labelledby="headingOne" data-parent="#accordion">
+					      <div class="card-body">
+						    <table class="table table-sm table-striped result_table">
+								<tr>
+									<th>Home</th>
+									<th></th>
+									<th>Result</th>
+									<th></th>
+									<th>Away</th>
+								</tr>							
+
+								{% for match in all_matches %}
+								{% if match.TournamentName == Tournament.Value  %}
+									{% if match.id == next_game.id %}
+										<tr class="table-info">
+											<td><span>{{match.Home}}</span></td>
+											<td><img src="{{match.HomeTeam.Logo.url}}" class="img-fluid rounded-circle score_player_image"></td>
+											{% if match.Played == True %}
+											 	<td><a href="{% url "season:match" GameID=match.GameID GameRound=0%}"> {{match.GoalsHome}}-{{match.GoalsAway}}</td>
+											{% else %}
+												<td><a href="{% url "season:match" GameID=match.GameID GameRound=0%}"> Not played </a></td>				
+											{% endif %}	
+											<td><img src="{{match.AwayTeam.Logo.url}}" class="img-fluid rounded-circle score_player_image"></td>
+											<td><span>{{match.Away}}</span></td>
+										</tr>
+									{% else %}
+										<tr>
+											<td><span>{{match.Home}}</span></td>
+											<td><img src="{{match.HomeTeam.Logo.url}}" class="img-fluid rounded-circle score_player_image"></td>
+											{% if match.Played == True %}
+											 	<td><a href="{% url "season:match" GameID=match.GameID GameRound=0%}"> {{match.GoalsHome}}-{{match.GoalsAway}}</td>
+											{% else %}
+												<td><a href="{% url "season:match" GameID=match.GameID GameRound=0%}"> Not played </a></td>				
+											{% endif %}	
+											<td><img src="{{match.AwayTeam.Logo.url}}" class="img-fluid rounded-circle score_player_image"></td>
+											<td><span>{{match.Away}}</span></td>
+										</tr>
+									{% endif %}
+								{% endif %}
+								{% endfor %}
+							</table>
+					      </div>
+					    </div>
+					  </div>
+
+					{% endif %}
+					{% endfor %}
+
+				{% else %}
+					<h3>No matches to play today - Day {{current_day.Day}}</h3>
+				{% endif %}
+			</div>
+		</div>	
+	{% endif %}
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="dayendmodal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">End of Day {{last_day}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+      	<ul class="nav nav-tabs" id="tabContent">
+		    <li class="nav-item"><a class="nav-link active" href="#Fitness" data-toggle="tab">Fitness</a></li>
+		    <li class="nav-item"><a class="nav-link" href="#Motivation" data-toggle="tab">Motivation</a></li>
+		    <li class="nav-item"><a class="nav-link" href="#Events" data-toggle="tab">Events</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="Fitness">
+		        <table class ="table table-sm table-striped">
+					<tr>
+						<th>Name</th>
+						<th>Old Fitness</th>	
+						<th>Fitness change</th>
+						<th>New Fitness</th>
+						<th>Fitness bar</th>
+					</tr>
+					{% for player in all_players_fitness %}
+						<tr>
+							<td>{{player.Player.Name}}</td>
+							<td>{{player.OldFitness}}</td>
+							<td>{{player.FitnessChange}}</td>
+							<td>{{player.NewFitness}}</td>
+							<td>
+								<div class='progress progress-striped'>
+									<div class="progress-bar" role="progressbar" style="width: {% widthratio player.OldFitness 1 100 %}%;">
+									{% widthratio player.NewFitness 1 100 %}
+									</div>
+									<div class="progress-bar bg-success" role="progressbar" style="width: {% widthratio player.FitnessChange 1 100 %}%;">
+									</div>
+								</div>
+							</td>
+						</tr>			
+					{% endfor %}
+				</table>
+			</div>
+			<div class="tab-pane" id="Motivation">
+	        	content 0
+	    	</div> 
+	    	<div class="tab-pane" id="Events">
+	        	content 1
+	    	</div>
+    	</div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock body_block %}

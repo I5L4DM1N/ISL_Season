@@ -1,0 +1,140 @@
+.grid-container-home, .grid-container-away, .grid-container-subs {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  background-color: #2196F3;
+  padding: 10px;
+}
+.grid-container-home{
+  margin-right:20px;
+}
+
+.grid-item-home, .grid-item-home-team, .grid-item-away-team {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.goal_icon{
+	width: 0.75rem;
+}
+.save_icon{
+  width: 1.25rem;
+}
+
+.gold_star, .silver_star, .bronze, .green, .grey{
+  height:1.5rem;
+  position: relative;
+}
+
+.fitness_table{
+  margin-bottom: 0.1rem;
+}
+
+.fitness_bar, .motivation_bar{
+  font-size: 0.5rem;
+  border-radius: 0;
+  height:0.6rem;
+}
+
+.fitness_bar-success{
+  background-color: green;
+}
+
+.fitness_bar-warning{
+  background-color: yellow;
+  color:black;
+}
+
+.fitness_bar-danger{
+  background-color: red;
+}
+
+.motivation_bar-success{
+  background-color: blue;
+}
+
+.motivation_bar-warning{
+  background-color: purple;
+}
+
+.motivation_bar-danger{
+  background-color: maroon;
+}
+
+
+.grid-item-home{
+  padding: 7px;
+  font-size: 15px;
+}
+
+.Player_Name{
+  font-size: 15px;
+}
+
+.Player_rating_5, .Player_rating_4, .Player_rating_3, .Player_rating_2, .Player_rating_1{
+  border-radius:0.25rem;
+  padding-right:0.25rem;
+  padding-left:0.25rem;
+  font-size: 0.75rem;
+}
+
+.Player_rating_5{
+  background-color: #57c461;
+}
+.Player_rating_4{
+  background-color: yellow;
+}
+.Player_rating_3{
+  background-color: #f68c02;
+}
+.Player_rating_2{
+  background-color: red;
+  color:white;
+}
+.Player_rating_1{
+  background-color: red;
+  color:white;
+}
+
+.Player_ability{
+  position:relative;
+  display: inline-block;
+  margin-left:-2rem;
+}
+
+.table-sm td{
+  padding:0.1rem;
+  border-top:0.10rem;
+}
+
+.calc_explanation{
+  font-style: italic;
+}
+
+.attack_value_success, .attack_value_fail, .defend_value_success, .defend_value_fail {
+  font-weight: bold;
+}
+
+.attack_value_fail, .defend_value_fail{
+  color:red;
+}
+
+.attack_value_success, .defend_value_success{
+  color:green;
+}
+
+.grid-container-teams{
+  display:grid;
+  grid-template-columns: 50% 50%;
+}
+
+.li_success{
+  border-color: #1cff5b #e9ecef #dee2e6;
+  border-top:1rem;
+}
+
+.li_fail{
+  border-color: red;
+}
