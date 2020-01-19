@@ -3,12 +3,12 @@ import os
 
 if __name__ == "__main__":
   from DatabaseChanges.mysql_connector_scripts import *
-	connection_string = {
-		'host': os.environ.get('DB_HOST'),
-		'database':'isl',
-		'user': os.environ.get('DB_USER'),
-		'password':os.environ.get('DB_PASS'),
-		}
+  connection_string = {
+	'host': os.environ.get('DB_HOST'),
+	'database':'isl',
+	'user': os.environ.get('DB_USER'),
+	'password':os.environ.get('DB_PASS'),
+	}
 
 else:    
     from season.MatchGenerator.DatabaseChanges.mysql_connector_scripts import *
