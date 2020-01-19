@@ -21,6 +21,7 @@ python-dateutil = "*"
 pytz = "*"
 six = "*"
 sqlparse = "*"
+django-heroku = "*"
 
 [requires]
 python_version = "3.7"
