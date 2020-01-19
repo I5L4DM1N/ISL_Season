@@ -10,13 +10,14 @@ from collections import defaultdict
 from math import *
 import pandas as pd
 import numpy as np
+import os
 
 
 connection_string = {
-    'host':'35.228.182.135',
+    'host': os.environ.get('DB_HOST'),
     'database':'isl',
-    'user':'admin',
-    'password':'pass123'
+    'user': os.environ.get('DB_USER'),
+    'password':os.environ.get('DB_PASS'),
     }
 
 

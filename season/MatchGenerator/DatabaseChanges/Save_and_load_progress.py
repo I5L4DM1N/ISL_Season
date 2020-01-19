@@ -1,5 +1,6 @@
 #import mysql_connector_scripts
 from datetime import datetime
+import os
 
 if __name__ == "__main__":
   from mysql_connector_scripts import *
@@ -7,19 +8,33 @@ else:
     from season.MatchGenerator.team import *
     from season.MatchGenerator.DatabaseChanges.mysql_connector_scripts import *
 
-connection_string_destination = {'host':'35.228.182.135',
-                    			'user':'admin',
-                    			'database':'isl_save',
-                    			'password':'pass123'}
+connection_string = {
+	'host': os.environ.get('DB_HOST'),
+	'database':'isl',
+	'user': os.environ.get('DB_USER'),
+	'password':os.environ.get('DB_PASS'),
+	}
 
-connection_string_source = {'host':'35.228.182.135',
-                    		'user':'admin',
-                    		'database':'isl',
-                    		'password':'pass123'}
 
-connection_string_instance = {'host':'35.228.182.135',
-                    	'user':'admin',
-                    	'password':'pass123'}
+connection_string_destination = {
+								'host': os.environ.get('DB_HOST'),
+								'database':'isl_save',
+								'user': os.environ.get('DB_USER'),
+								'password':os.environ.get('DB_PASS')
+	                    		}
+
+connection_string_source = {
+							'host': os.environ.get('DB_HOST'),
+							'database':'isl',
+							'user': os.environ.get('DB_USER'),
+							'password':os.environ.get('DB_PASS')
+							}
+
+connection_string_instance = {
+							'host': os.environ.get('DB_HOST'),
+							'user': os.environ.get('DB_USER'),
+							'password':os.environ.get('DB_PASS')
+							}
 
 source_database = 'isl'
 destination_database = 'isl_save'

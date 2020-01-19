@@ -92,9 +92,9 @@ DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.mysql',
         'NAME':'isl',
-        'USER': 'admin',
-        'PASSWORD':'pass123',
-        'HOST': '35.228.182.135',
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD':os.environ.get('DB_PASS'),
+        'HOST': os.environ.get('DB_HOST'),
         'PORT':'', 
     }
 }

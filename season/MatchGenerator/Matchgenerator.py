@@ -1,5 +1,6 @@
 import random
 import sqlite3
+import os
 
 if __name__ == "__main__":
   from team import *
@@ -9,10 +10,13 @@ else:
     from season.MatchGenerator.DatabaseChanges.mysql_connector_scripts import *
 
 
-connection_string = {'host':'35.228.182.135',
-                      'database':'isl',
-                      'user':'admin',
-                      'password':'pass123'}
+connection_string = {
+    'host': os.environ.get('DB_HOST'),
+    'database':'isl',
+    'user': os.environ.get('DB_USER'),
+    'password':os.environ.get('DB_PASS'),
+    }
+
 
 
 
