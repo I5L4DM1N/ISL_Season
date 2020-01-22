@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles', 
     'storages'
 ]
 
@@ -164,7 +164,11 @@ AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
 AWS_S3_FILE_OVERWRITE = True
-AWS_DEFAULS_ACL = None
+AWS_DEFAULT_ACL = None
+AWS_S3_REGION_NAME = 'eu-north-1'
+#AWS_S3_HOST = 's3.eu-north-1.amazonaws.com'
+#S3_USE_SIGV4 = True
+
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 

@@ -4,7 +4,7 @@
 	<title>{% block title %}
 	 ISL{% endblock title %}</title>
 	<!---load path to static file-->
-	{% load staticfiles %}
+	{% load static %}
 	<!---Bootstrap-->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<!---Goodle fonts-->
@@ -20,7 +20,7 @@
 
  {% block extrahead %}{% endblock %}
 </head>
-<body>
+<body> 
 	<nav class="navbar navbar-expand-sm navbar-dark bg-dark base_navbar">
       <a class="navbar-brand" href="{% url 'season:start' %}">ISL</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">

@@ -11,7 +11,7 @@ from math import *
 import pandas as pd
 import numpy as np
 import os
-
+ 
 
 connection_string = {
     'host': os.environ.get('DB_HOST'),
@@ -116,15 +116,19 @@ class CalendarView(generic.list.ListView):
         Current_week = current_day.Week
         Current_week_days = [Current_week*7-6,Current_week*7-5,Current_week*7-4,Current_week*7-3,Current_week*7-2,Current_week*7-1,Current_week*7]
         
-        context = {'form':form,'all_matches':all_matches
-        ,'next_game':next_game,'last_game':last_game
-        ,'current_day':current_day,"Current_week_days":Current_week_days
-        ,"all_players_fitness":all_players_fitness
-        ,"last_day":last_day,
-        "Tournaments":Tournaments,
-        'Division_table':Division_table,
-        "TypeOfDay":TypeOfDay
-        }
+        context = {
+                'form':form,
+                'all_matches':all_matches,
+                'next_game':next_game,
+                'last_game':last_game,
+                'current_day':current_day,
+                "Current_week_days":Current_week_days,
+                "all_players_fitness":all_players_fitness,
+                "last_day":last_day,
+                "Tournaments":Tournaments,
+                'Division_table':Division_table,
+                "TypeOfDay":TypeOfDay
+                }
         return render(request,self.template_name,context)
 
     def post(self,request):

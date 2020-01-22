@@ -2,7 +2,7 @@
 {% extends "season/base.html" %}
 
 <!--la till load staticfiles för att det inte fungerar att använda static inom block taggar. i ett senare skede bör logo vara ett attribut till class istället för att använda static-->
-{% load staticfiles %}
+{% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'season/style_match.css' %}">
 	{% block title %}Test Page{% endblock title %}
