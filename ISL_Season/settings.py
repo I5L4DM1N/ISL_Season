@@ -101,7 +101,9 @@ DATABASES = {
         #'ssl_cert': os.environ.get('SSL_CERT_DIR'),
         #'ssl_key': os.environ.get('SSL_KEY_DIR'),
         #'PORT':'',
-        'OPTIONS': {'ssl':{
+        'OPTIONS': {
+                'sslmode':'false',
+                'ssl':{
                     'ssl_ca': os.environ.get('SSL_CA_DIR'),
                     'ssl_cert': os.environ.get('SSL_CERT_DIR'),
                     'ssl_key': os.environ.get('SSL_KEY_DIR')
