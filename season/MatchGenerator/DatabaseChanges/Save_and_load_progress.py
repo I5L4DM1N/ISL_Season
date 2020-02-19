@@ -13,6 +13,9 @@ connection_string = {
 	'database':'isl',
 	'user': os.environ.get('DB_USER'),
 	'password':os.environ.get('DB_PASS'),
+	'ssl_ca': os.environ.get('SSL_CA_DIR'),
+	'ssl_cert': os.environ.get('SSL_CERT_DIR'),
+	'ssl_key': os.environ.get('SSL_KEY_DIR')
 	}
 
 
@@ -20,20 +23,29 @@ connection_string_destination = {
 								'host': os.environ.get('DB_HOST'),
 								'database':'isl_save',
 								'user': os.environ.get('DB_USER'),
-								'password':os.environ.get('DB_PASS')
+								'password':os.environ.get('DB_PASS'),
+								'ssl_ca': os.environ.get('SSL_CA_DIR'),
+								'ssl_cert': os.environ.get('SSL_CERT_DIR'),
+								'ssl_key': os.environ.get('SSL_KEY_DIR')
 	                    		}
 
 connection_string_source = {
 							'host': os.environ.get('DB_HOST'),
 							'database':'isl',
 							'user': os.environ.get('DB_USER'),
-							'password':os.environ.get('DB_PASS')
+							'password':os.environ.get('DB_PASS'),
+							'ssl_ca': os.environ.get('SSL_CA_DIR'),
+							'ssl_cert': os.environ.get('SSL_CERT_DIR'),
+							'ssl_key': os.environ.get('SSL_KEY_DIR')
 							}
 
 connection_string_instance = {
 							'host': os.environ.get('DB_HOST'),
 							'user': os.environ.get('DB_USER'),
-							'password':os.environ.get('DB_PASS')
+							'password':os.environ.get('DB_PASS'),
+							'ssl_ca': os.environ.get('SSL_CA_DIR'),
+							'ssl_cert': os.environ.get('SSL_CERT_DIR'),
+							'ssl_key': os.environ.get('SSL_KEY_DIR')
 							}
 
 source_database = 'isl'

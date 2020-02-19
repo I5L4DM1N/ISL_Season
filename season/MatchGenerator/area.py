@@ -1,7 +1,16 @@
-from season.MatchGenerator.status import *
-#from status import *
-
 import random
+# import os 
+# dir_path = os.path.dirname(os.path.realpath(__file__))
+# folder = os.path.basename(dir_path)
+
+# if folder == 'MatchGenerator':
+#     from status import *
+# else:
+#     from season.MatchGenerator.status import *
+
+
+#from status import *
+from season.MatchGenerator.status import *
 
 class Area():
     list_of_areas = []

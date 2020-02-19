@@ -8,11 +8,18 @@ def get_cursor(connection_string):
     database = connection_string["database"]
     user = connection_string["user"]
     password = connection_string["password"]
+    ssl_ca = connection_string['ssl_ca']
+    ssl_cert = connection_string['ssl_cert']
+    ssl_key = connection_string['ssl_key']
     try:
         connection = mysql.connector.connect(host=host,
                                              database=database,
                                              user=user,
-                                             password=password)
+                                             password=password,
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key
+                                             )
 
         cursor = connection.cursor()
         print("Cursor created")
@@ -33,13 +40,19 @@ def get_column_headers(connection_string_source, table_name):
     database = connection_string_source["database"]
     user = connection_string_source["user"]
     password = connection_string_source["password"]
+    ssl_ca = connection_string_source['ssl_ca']
+    ssl_cert = connection_string_source['ssl_cert']
+    ssl_key = connection_string_source['ssl_key']
 
     database_and_table = database + '.' + table_name
     try:
         connection = mysql.connector.connect(host=host,
                                              database=database,
                                              user=user,
-                                             password=password)
+                                             password=password,                                             
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key)
 
         MySQLQuery = "show columns FROM {};".format(database_and_table);
         cursor = connection.cursor()
@@ -233,12 +246,18 @@ def test_database_connection(connection_string):
     database = connection_string["database"]
     user = connection_string["user"]
     password = connection_string["password"]
+    ssl_ca = connection_string['ssl_ca']
+    ssl_cert = connection_string['ssl_cert']
+    ssl_key = connection_string['ssl_key']
 
     try:
         connection = mysql.connector.connect(host=host,
                                              database=database,
                                              user=user,
-                                             password=password)
+                                             password=password,
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key)
         if connection.is_connected():
             db_Info = connection.get_server_info()
             print("Connected to MySQL Server version ", db_Info)
@@ -260,12 +279,18 @@ def connect_to_database(connection_string):
     database = connection_string["database"]
     user = connection_string["user"]
     password = connection_string["password"]
+    ssl_ca = connection_string['ssl_ca']
+    ssl_cert = connection_string['ssl_cert']
+    ssl_key = connection_string['ssl_key']
 
     try:
         connection = mysql.connector.connect(host=host,
                                              database=database,
                                              user=user,
-                                             password=password)
+                                             password=password,
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key)
         if connection.is_connected():
             db_Info = connection.get_server_info()
             print("Connected to MySQL Server version ", db_Info)
@@ -286,12 +311,18 @@ def create_table(connection_string, query_string):
     database = connection_string["database"]
     user = connection_string["user"]
     password = connection_string["password"]
+    ssl_ca = connection_string['ssl_ca']
+    ssl_cert = connection_string['ssl_cert']
+    ssl_key = connection_string['ssl_key']
 
     try:
         connection = mysql.connector.connect(host=host,
                                              database=database,
                                              user=user,
-                                             password=password)
+                                             password=password,
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key)
 
 
         cursor = connection.cursor()
@@ -325,6 +356,9 @@ def copy_table_to_another_database(connection_string_instance, source_database, 
     #source_database = connection_string_source["database"]
     source_user = connection_string_instance["user"]
     source_password = connection_string_instance["password"]
+    ssl_ca = connection_string_instance['ssl_ca']
+    ssl_cert = connection_string_instance['ssl_cert']
+    ssl_key = connection_string_instance['ssl_key']
 
     source_db_and_table = source_database + '.' + table_name
     destination_db_and_table = destination_database + '.' + table_name
@@ -332,7 +366,10 @@ def copy_table_to_another_database(connection_string_instance, source_database, 
         connection = mysql.connector.connect(host=source_host,
                                              #database=destination_database,
                                              user=source_user,
-                                             password=source_password)
+                                             password=source_password,
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key)
 
         # connection_destination = mysql.connector.connect(host=destination_host,
         #                                      database=destination_database,
@@ -369,12 +406,18 @@ def drop_table(connection_string, table_name):
     database = connection_string["database"]
     user = connection_string["user"]
     password = connection_string["password"]
+    ssl_ca = connection_string['ssl_ca']
+    ssl_cert = connection_string['ssl_cert']
+    ssl_key = connection_string['ssl_key']
 
     try:
         connection = mysql.connector.connect(host=host,
                                              database=database,
                                              user=user,
-                                             password=password)
+                                             password=password,
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key)
 
         MySQLQuery = """DROP TABLE IF EXISTS """ + table_name
 
@@ -404,12 +447,19 @@ def delete_data(connection_string_instance, database_name, table_name):
     database = database_name
     user = connection_string_instance["user"]
     password = connection_string_instance["password"]
+    ssl_ca = connection_string_instance['ssl_ca']
+    ssl_cert = connection_string_instance['ssl_cert']
+    ssl_key = connection_string_instance['ssl_key']
+    
     query_string = """DELETE FROM """ + table_name
     try:
         connection = mysql.connector.connect(host=host,
                                              database=database,
                                              user=user,
-                                             password=password)
+                                             password=password,
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key)
 
         MySQLQuery = query_string
 
@@ -442,6 +492,10 @@ def delete_data_conditionally(connection_string, table_name, condition_dict):
     database = connection_string["database"]
     user = connection_string["user"]
     password = connection_string["password"]
+    ssl_ca = connection_string['ssl_ca']
+    ssl_cert = connection_string['ssl_cert']
+    ssl_key = connection_string['ssl_key']
+
     #destination_db_and_table = database + '.' + table_name
     condition_string = condition_string_from_dict(condition_dict)
 
@@ -454,7 +508,10 @@ def delete_data_conditionally(connection_string, table_name, condition_dict):
         connection = mysql.connector.connect(host=host,
                                              database=database,
                                              user=user,
-                                             password=password)
+                                             password=password,
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key)
 
         MySQLQuery = query_string
 
@@ -490,12 +547,19 @@ def add_column_to_table(connection_string, table_name, column_name, data_type_ri
     database = connection_string["database"]
     user = connection_string["user"]
     password = connection_string["password"]
+    ssl_ca = connection_string['ssl_ca']
+    ssl_cert = connection_string['ssl_cert']
+    ssl_key = connection_string['ssl_key']
+
     database_and_table = database + '.' + table_name
     try:
         connection = mysql.connector.connect(host=host,
                                              database=database,
                                              user=user,
-                                             password=password)
+                                             password=password,
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key)
 
         MySQLQuery = """ALTER TABLE {} ADD {} {}""".format(database_and_table, column_name, data_type_ristrictions)
         #MySQLQuery = """ALTER TABLE isl_save.season_nation ADD save_number INT(2) NULL"""
@@ -535,6 +599,9 @@ def insert_data(connection_string, table_name, list_of_columns, list_of_values):
     database = connection_string["database"]
     user = connection_string["user"]
     password = connection_string["password"]
+    ssl_ca = connection_string['ssl_ca']
+    ssl_cert = connection_string['ssl_cert']
+    ssl_key = connection_string['ssl_key']
 
     #combining columns into an insert string that is used in the query
     insert_string = build_column_string_for_insert(list_of_columns)
@@ -545,7 +612,10 @@ def insert_data(connection_string, table_name, list_of_columns, list_of_values):
         connection = mysql.connector.connect(host=host,
                                              database=database,
                                              user=user,
-                                             password=password)
+                                             password=password,
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key)
         query_string = """INSERT INTO {} ({}) VALUES ({}) """.format(table_name, insert_string,values_string)
         cursor = connection.cursor()
         result = cursor.execute(query_string)
@@ -576,6 +646,9 @@ def insert_data_from_other_table(connection_string_instance, source_database, de
     #source_database = connection_string_instance["database"]
     source_user = connection_string_instance["user"]
     source_password = connection_string_instance["password"]
+    ssl_ca = connection_string_instance['ssl_ca']
+    ssl_cert = connection_string_instance['ssl_cert']
+    ssl_key = connection_string_instance['ssl_key']
 
     source_db_and_table = source_database + '.' + table_name
     destination_db_and_table = destination_database + '.' + table_name
@@ -584,7 +657,10 @@ def insert_data_from_other_table(connection_string_instance, source_database, de
         connection = mysql.connector.connect(host=source_host,
                                              #database=source_database,
                                              user=source_user,
-                                             password=source_password)
+                                             password=source_password,
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key)
 
         MySQLQuery = """INSERT INTO {} ({}) SELECT {} FROM {}""".format(destination_db_and_table, list_of_columns, list_of_columns, source_db_and_table)
         print(MySQLQuery)
@@ -618,6 +694,9 @@ def insert_data_from_other_table_conditionally(connection_string_instance, sourc
     source_host = connection_string_instance["host"]
     source_user = connection_string_instance["user"]
     source_password = connection_string_instance["password"]
+    ssl_ca = connection_string_instance['ssl_ca']
+    ssl_cert = connection_string_instance['ssl_cert']
+    ssl_key = connection_string_instance['ssl_key']
 
     source_db_and_table = source_database + '.' + table_name
     destination_db_and_table = destination_database + '.' + table_name
@@ -633,7 +712,10 @@ def insert_data_from_other_table_conditionally(connection_string_instance, sourc
         connection = mysql.connector.connect(host=source_host,
                                              #database=source_database,
                                              user=source_user,
-                                             password=source_password)
+                                             password=source_password,
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key)
 
         MySQLQuery = """INSERT INTO {}({}) SELECT {} FROM {} {}""".format(destination_db_and_table, 
                                                                         columns_string, 
@@ -682,6 +764,9 @@ def update_data_from_other_table(connection_string_instance, source_database, de
     #source_database = connection_string_source["database"]
     source_user = connection_string_instance["user"]
     source_password = connection_string_instance["password"]
+    ssl_ca = connection_string_instance['ssl_ca']
+    ssl_cert = connection_string_instance['ssl_cert']
+    ssl_key = connection_string_instance['ssl_key']
 
     source_db_and_table = source_database + '.' + source_table_name
     destination_db_and_table = destination_database + '.' + destination_table_name
@@ -703,7 +788,10 @@ def update_data_from_other_table(connection_string_instance, source_database, de
         connection = mysql.connector.connect(host=source_host,
                                              #database=database,
                                              user=source_user,
-                                             password=source_password)
+                                             password=source_password,
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key)
 
         MySQLQuery = """UPDATE {} 
                         INNER JOIN {} ON {} = {} 
@@ -802,12 +890,18 @@ def insert_many_data(connection_string, list_of_columns, records_to_insert, tabl
     database = connection_string["database"]
     user = connection_string["user"]
     password = connection_string["password"]
+    ssl_ca = connection_string['ssl_ca']
+    ssl_cert = connection_string['ssl_cert']
+    ssl_key = connection_string['ssl_key']
 
     try:
         connection = mysql.connector.connect(host=host,
                                              database=database,
                                              user=user,
-                                             password=password)
+                                             password=password,
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key)
 
 
         cursor = connection.cursor()
@@ -861,6 +955,9 @@ def update_data(connection_string_instance, destination_database, table_name, co
     database = destination_database
     user = connection_string_instance["user"]
     password = connection_string_instance["password"]
+    ssl_ca = connection_string_instance['ssl_ca']
+    ssl_cert = connection_string_instance['ssl_cert']
+    ssl_key = connection_string_instance['ssl_key']
 
     database_and_table = str(database +'.'+ table_name)
     
@@ -870,7 +967,10 @@ def update_data(connection_string_instance, destination_database, table_name, co
         connection = mysql.connector.connect(host=host,
                                              database=database,
                                              user=user,
-                                             password=password)
+                                             password=password,
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key)
 
         query_string = """UPDATE {} SET {} {} """.format(database_and_table, input_string, condition_string)
         #print(query_string)
@@ -907,6 +1007,9 @@ def reset_autoincrement(connection_string_instance, destination_database, table_
     database = destination_database
     user = connection_string_instance["user"]
     password = connection_string_instance["password"]
+    ssl_ca = connection_string_instance['ssl_ca']
+    ssl_cert = connection_string_instance['ssl_cert']
+    ssl_key = connection_string_instance['ssl_key']
 
     database_and_table = str(database +'.'+ table_name)
     
@@ -914,7 +1017,10 @@ def reset_autoincrement(connection_string_instance, destination_database, table_
         connection = mysql.connector.connect(host=host,
                                              database=database,
                                              user=user,
-                                             password=password)
+                                             password=password,
+                                             ssl_ca=ssl_ca,
+                                             ssl_cert=ssl_cert,
+                                             ssl_key=ssl_key)
 
         query_string = """ALTER TABLE {} AUTO_INCREMENT = 1;""".format(database_and_table,)
         #print(query_string)

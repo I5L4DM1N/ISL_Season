@@ -1,13 +1,41 @@
 import random
-import sqlite3
-import os
+import os 
+import importlib.util
 
-if __name__ == "__main__":
-  from team import *
-  from DatabaseChanges.mysql_connector_scripts import *
-else:    
-    from season.MatchGenerator.team import *
-    from season.MatchGenerator.DatabaseChanges.mysql_connector_scripts import *
+
+# #importing module independent of if the module is run directly in sublime, or through django
+# current_path = os.path.dirname(os.path.realpath(__file__))
+# current_path = current_path.replace("\\", "/")
+# module_to_import  = 'team'
+# path_to_imort_module = current_path + '/' + module_to_import + '.py'
+
+# spec = importlib.util.spec_from_file_location(module_to_import, path_to_imort_module)
+# team = importlib.util.module_from_spec(spec)
+# spec.loader.exec_module(team)
+
+# module_to_import  = 'mysql_connector_scripts'
+# path_to_imort_module = current_path + '/DatabaseChanges/' + module_to_import + '.py'
+
+# spec = importlib.util.spec_from_file_location(module_to_import, path_to_imort_module)
+# mysql_connector_scripts = importlib.util.module_from_spec(spec)
+# spec.loader.exec_module(mysql_connector_scripts)
+
+#from season.MatchGenerator.DatabaseChanges.mysql_connector_scripts import *
+
+# if folder == 'MatchGenerator':
+#   from team import *
+#   from DatabaseChanges.mysql_connector_scripts import *
+# else:    
+#     from season.MatchGenerator.team import *
+#     from season.MatchGenerator.DatabaseChanges.mysql_connector_scripts import *
+
+
+# from team import *
+# from DatabaseChanges.mysql_connector_scripts import *
+
+from season.MatchGenerator.team import *
+from season.MatchGenerator.DatabaseChanges.mysql_connector_scripts import *
+
 
 
 connection_string = {
@@ -15,6 +43,9 @@ connection_string = {
     'database':'isl',
     'user': os.environ.get('DB_USER'),
     'password':os.environ.get('DB_PASS'),
+    'ssl_ca': os.environ.get('SSL_CA_DIR'),
+    'ssl_cert': os.environ.get('SSL_CERT_DIR'),
+    'ssl_key': os.environ.get('SSL_KEY_DIR')
     }
 
 

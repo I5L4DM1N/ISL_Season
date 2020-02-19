@@ -1,10 +1,16 @@
 import random
-import sqlite3
-if __name__ == "__main__":
+
+import os 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+folder = os.path.basename(dir_path)
+
+if folder == 'MatchGenerator':
   from team import *
-else:    
+else:
     from season.MatchGenerator.team import *
 DatabasePath = "C:\\Users\\ASV11691\\OneDrive\\ISL_Season\\db.sqlite3"
+
+
 
 
 # def Set_general_values():

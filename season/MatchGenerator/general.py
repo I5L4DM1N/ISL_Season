@@ -1,5 +1,15 @@
-from season.MatchGenerator.area import *
+# import os 
+# dir_path = os.path.dirname(os.path.realpath(__file__))
+# folder = os.path.basename(dir_path)
+
+# if folder == 'MatchGenerator':
+#     from area import *
+# else:
+#     from season.MatchGenerator.area import *
+
 #from area import *
+from season.MatchGenerator.area import *
+
 
 class General ():
 

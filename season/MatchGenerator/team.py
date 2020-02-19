@@ -1,6 +1,24 @@
-from season.MatchGenerator.player import *
-#from player import *
 import random
+import os 
+import importlib.util
+
+# #importing module independent of if the module is run directly in sublime, or through django
+# current_path = os.path.dirname(os.path.realpath(__file__))
+# current_path = current_path.replace("\\", "/")
+# module_to_import  = 'player'
+# path_to_imort_module = current_path + '/' + module_to_import + '.py'
+
+# spec = importlib.util.spec_from_file_location(module_to_import, path_to_imort_module)
+# player = importlib.util.module_from_spec(spec)
+# spec.loader.exec_module(player)
+
+# from player import *
+
+# dir_path = os.path.dirname(os.path.realpath(__file__))
+# folder = os.path.basename(dir_path)
+
+# from player import *
+from season.MatchGenerator.player import *
 
 class Team():
     list_of_teams = []

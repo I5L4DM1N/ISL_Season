@@ -9,6 +9,9 @@ if __name__ == "__main__":
 	'database':'isl',
 	'user': os.environ.get('DB_USER'),
 	'password':os.environ.get('DB_PASS'),
+	'ssl_ca': os.environ.get('SSL_CA_DIR'),
+	'ssl_cert': os.environ.get('SSL_CERT_DIR'),
+	'ssl_key': os.environ.get('SSL_KEY_DIR')
 	}
 	
 else:    

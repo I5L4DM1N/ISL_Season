@@ -75,8 +75,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ISL_Season.wsgi.application'
 
+WSGI_APPLICATION = 'ISL_Season.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
@@ -97,10 +97,24 @@ DATABASES = {
         'USER': os.environ.get('DB_USER'),
         'PASSWORD':os.environ.get('DB_PASS'),
         'HOST': os.environ.get('DB_HOST'),
-        'PORT':'', 
+        #'ssl_ca': os.environ.get('SSL_CA_DIR'),
+        #'ssl_cert': os.environ.get('SSL_CERT_DIR'),
+        #'ssl_key': os.environ.get('SSL_KEY_DIR'),
+        #'PORT':'',
+        'OPTIONS': {'ssl':{
+                    'ssl_ca': os.environ.get('SSL_CA_DIR'),
+                    'ssl_cert': os.environ.get('SSL_CERT_DIR'),
+                    'ssl_key': os.environ.get('SSL_KEY_DIR')
+                    #'cipher': 'DHE-RSA-AES256-SHA'
+                        },
+                    },
     }
 }
 
+
+    
+    
+    
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
@@ -174,4 +188,4 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 django_heroku.settings(locals())
 
-del DATABASES['OPTIONS']['sslmode']
+#del DATABASES['OPTIONS']['sslmode']

@@ -1,8 +1,19 @@
-from season.MatchGenerator.position import *
-#from position import *
-
-
 import random
+
+
+#from position import *
+from season.MatchGenerator.position import *
+
+
+# import os 
+# dir_path = os.path.dirname(os.path.realpath(__file__))
+# folder = os.path.basename(dir_path)
+
+# if folder == 'MatchGenerator':
+#     from position import *
+# else:
+#     from season.MatchGenerator.position import *
+
 
 class Player():
     no_of_players = 0
